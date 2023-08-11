@@ -1,70 +1,64 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # AU33_Regional
 
 @auteur : Antoine Klein
 
-## AU33 : Extension à l'échelle régionale
+## AU33 : Extension Ã  l'Ã©chelle rÃ©gionale
 
 ## KIT AU33
 
-Ce dépôt est une extension du kit AU33 interne à l'INSEE dispoible ici :
+Ce dÃ©pÃ´t est une extension du kit AU33 interne Ã  l'INSEE dispoible ici :
 <https://gitlab.insee.fr/psar-au/groupe_au33/au33_dev>
 
-Ce dernier permettait de mesurer les disparités spatiales selon les
-revenus à l'infracommunal. Sa documentation se trouve par ici :
+Ce dernier permettait de mesurer les disparitÃ©s spatiales selon les
+revenus Ã  l'infracommunal. Sa documentation se trouve par ici :
 <http://psar-au.gitlab-pages.insee.fr/groupe_au33/documentation_AU33/>
 
-## Description : Ce dépôt étend le kit à l'échelle de la région du Grand Est.
+## Description : Ce dÃ©pÃ´t Ã©tend le kit Ã  l'Ã©chelle de la rÃ©gion du Grand Est.
 
 Le code permet de :\
--Définir la fenêtre temporelle d'étude (00a)\
--Définir le nombre de groupes sociaux (00a)\
--Définir le seuil du nombre de ménages minimum à retenir par maille
+-DÃ©finir la fenÃªtre temporelle d'Ã©tude (00a)\
+-DÃ©finir le nombre de groupes sociaux (00a)\
+-DÃ©finir le seuil du nombre de mÃ©nages minimum Ã  retenir par maille
 (00a)\
--Définir la maille élémentaire comme carreau de côté choisi par
+-DÃ©finir la maille Ã©lÃ©mentaire comme carreau de cÃ´tÃ© choisi par
 l'utilisateur (00a)\
 
--Définir le teritoire d'étude en shapefile (shp) (04)\
--Récupérer des statistiques territoriales de la région (04)\
--Définir la coupe inter/intra avec un autre shapefile (04)\
--Affecter chaque ménage localisé à son carreau et effectue le calcul des
+-DÃ©finir le teritoire d'Ã©tude en shapefile (shp) (04)\
+-RÃ©cupÃ©rer des statistiques territoriales de la rÃ©gion (04)\
+-DÃ©finir la coupe inter/intra avec un autre shapefile (04)\
+-Affecter chaque mÃ©nage localisÃ© Ã  son carreau et effectue le calcul des
 indices de Theil (04)\
--Garder trace de la proportion des ménages écartés par le filtre de
+-Garder trace de la proportion des mÃ©nages Ã©cartÃ©s par le filtre de
 privacy (04)\
 
 -Fournir des CSV qui contiennent les mesures de indices de Theil et une
 colonne GEOMETRY pour effectuer les cartes sous QGIS (11)\
--Mesure de 2004 à 2019 de la ségrégation à l'échelle de la région (11)\
--Mesurer les composantes de ségrégation de chaque groupe social au cours
+-Mesure de 2004 Ã  2019 de la sÃ©grÃ©gation Ã  l'Ã©chelle de la rÃ©gion (11)\
+-Mesurer les composantes de sÃ©grÃ©gation de chaque groupe social au cours
 du temps (11)\
--Mesurer les contributions de ségrégation de chaque groupe social au
+-Mesurer les contributions de sÃ©grÃ©gation de chaque groupe social au
 cours du temps (11)\
 -Tracer les histogrammes de revenus de chaque sous-territoire (11)\
--Obtenir la part de population vivant dans le sous-territoire d'étude au
+-Obtenir la part de population vivant dans le sous-territoire d'Ã©tude au
 cours du temps (11)\
--Décomposer la ségrégation totale en composantes inter/intra au cours du
+-DÃ©composer la sÃ©grÃ©gation totale en composantes inter/intra au cours du
 temps (11)\
--Décomposer la ségrégation totale en contributions inter/intra au cours
+-DÃ©composer la sÃ©grÃ©gation totale en contributions inter/intra au cours
 du temps (11)\
--Obtenir les évolutions en base 100 de chaque composante inter/intra
+-Obtenir les Ã©volutions en base 100 de chaque composante inter/intra
 (11)\
--Comparer en base 100 les évolutions de la ségrégation totale au cours
+-Comparer en base 100 les Ã©volutions de la sÃ©grÃ©gation totale au cours
 du temps en fonctions de la taille des carreaux (11)\
 
--Itérer la coupe inter/intra en fonction du critère "toutes les communes
+-ItÃ©rer la coupe inter/intra en fonction du critÃ¨re "toutes les communes
 ayant moins de X habitants VS les autres" (11)\
--Récupérer sur chacune de ces itérations : (11)\
--Evolutions des médianes de revenu pour chaque sous-territoire (11)\
--Evolutions des médianes de revenu en base 100 pour chaque
+-RÃ©cupÃ©rer sur chacune de ces itÃ©rations : (11)\
+-Evolutions des mÃ©dianes de revenu pour chaque sous-territoire (11)\
+-Evolutions des mÃ©dianes de revenu en base 100 pour chaque
 sous-territoire (11)\
 -Histogramme de revenu pour chaque sous territoire 2004 VS 2019 (11)\
 -Part de la population vivant dans le territoire sous le seuil (11)\
--Comparer en fonction de ces seuils la décomposition de la ségrégation
+-Comparer en fonction de ces seuils la dÃ©composition de la sÃ©grÃ©gation
 totale en inter/intra (11)\
 
 ## Visuels
@@ -72,90 +66,90 @@ totale en inter/intra (11)\
 
 ## Installation
 
-La liste des packages utilisées est inscrites et importées dans (00a).
-Toutes les dépendances sont compatibles avec AUSV3 !
+La liste des packages utilisÃ©es est inscrites et importÃ©es dans (00a).
+Toutes les dÃ©pendances sont compatibles avec AUSV3 !
 
 ## Usage
 
-Ce dépôt reprend le dataset nettoyé du Kit33. Pour l'utiliser, vous
+Ce dÃ©pÃ´t reprend le dataset nettoyÃ© du Kit33. Pour l'utiliser, vous
 aurez besoin de demander les droits de lecture du coffre :
 HAB-PSAR-AU-AU33-DEV.
 
-Hyperparamètres à définir à l'usage :\
+HyperparamÃ¨tres Ã  dÃ©finir Ã  l'usage :\
 
--Variable: ce qu'elle décrit \| sa classe \| mon utilisation \| fichier
+-Variable: ce qu'elle dÃ©crit \| sa classe \| mon utilisation \| fichier
 R qui l'utilise\
 
--millesi : vecteur des années à étudier \| vecteur de chaînes de
-character \| de "04" à "19" \| (00a)\
+-millesi : vecteur des annÃ©es Ã  Ã©tudier \| vecteur de chaÃ®nes de
+character \| de "04" Ã  "19" \| (00a)\
 -nb_tranches : nombre de groupes sociaux \| integer \| 5 \| (00a)\
--nbmen_min : nombre de ménages minimum à garder dans chaque maille \|
+-nbmen_min : nombre de mÃ©nages minimum Ã  garder dans chaque maille \|
 integer \| 20 \| (00a)\
--liste_taille_carreaux : liste des côtés des carreaux à traiter \| list
+-liste_taille_carreaux : liste des cÃ´tÃ©s des carreaux Ã  traiter \| list
 of integer \| list(4000) \| (00a)\
--reg : code de la région à étudier \| character \| "44" \| (00a)\
+-reg : code de la rÃ©gion Ã  Ã©tudier \| character \| "44" \| (00a)\
 
--lmen: liste pour chaque année des tableaux de données des ménages \|
-list of dataframe \| à récupérer du coffre \| (04)\
--dep_valid_met : liste des codes départementaux du territoire d'étude
-pour le filtrage des ménages \| vector of integer
+-lmen: liste pour chaque annÃ©e des tableaux de donnÃ©es des mÃ©nages \|
+list of dataframe \| Ã  rÃ©cupÃ©rer du coffre \| (04)\
+-dep_valid_met : liste des codes dÃ©partementaux du territoire d'Ã©tude
+pour le filtrage des mÃ©nages \| vector of integer
 \|c(paste0("0",8),10,51,52,54,55,57,67,68,88) \| (04)\
 -shapefile : contours bdtopo de toutes les communes \| fichier shapefile
 \| commune_bdtopo_franceentiere_2022.shp \| (04)\
 -com_rural : nomenclature des communes rurales \| fichier Excel \|
 <https://www.insee.fr/fr/statistiques/5039991?sommaire=5040030> \| (04)\
--region: nomenclature des régions \| fichier csv \| v_region_2023.csv \|
+-region: nomenclature des rÃ©gions \| fichier csv \| v_region_2023.csv \|
 (04)\
 -Palette: liste de couleur pour les plots \| list of hexadimals \|
 c('#d53e4f','#f46d43','#fdae61','#fee08b','#ffffbf','#e6f598','#abdda4','#66c2a5','#3288bd')
 \| (11)\
--Liste_seuil : liste des seuils de ménages tels que la région devient
-coupée en "territoire de communes ayant moins de X ménages / territoire
-de communes ayant plus que X ménages" \| list of integer \| (11)\
+-Liste_seuil : liste des seuils de mÃ©nages tels que la rÃ©gion devient
+coupÃ©e en "territoire de communes ayant moins de X mÃ©nages / territoire
+de communes ayant plus que X mÃ©nages" \| list of integer \| (11)\
 
 Sorties pertinentes du code :\
 -sf_rural_region_inters: liste des contours des communes rurales de la
-région \| shapefile \| à mettre sur QGIS pour observer \| (04)\
+rÃ©gion \| shapefile \| Ã  mettre sur QGIS pour observer \| (04)\
 -territoire_rural/urbain : contour du territoire rural/urbain \|
 shapefile \| QGIS pour observer \| (04)\
--liste_mediane_rural/urbaine/region : médiane des revenus des ménages de
-2004 à 2019 vivant sur le territoire en question \| list of integer \| à
+-liste_mediane_rural/urbaine/region : mÃ©diane des revenus des mÃ©nages de
+2004 Ã  2019 vivant sur le territoire en question \| list of integer \| Ã 
 executer pour observer \| (04)\
 -datadash : tableau qui contient les indices de Theil et toutes le
-grandeurs de sorties \| list of dataframe \| à executer pour observer \|
+grandeurs de sorties \| list of dataframe \| Ã  executer pour observer \|
 (05)\
 -data : tableau avec les grandeurs interessantes et une colonne avec la
-géométrie pour QGIS \| dataframe \| à mettre sous QGIS pour observer \|
+gÃ©omÃ©trie pour QGIS \| dataframe \| Ã  mettre sous QGIS pour observer \|
 (11)\
 -Statistiques : statistiques descriptives du filtre (20men/maille) \|
-dataframe \| à ouvrir sur Open Office pour observer \| (11)\
+dataframe \| Ã  ouvrir sur Open Office pour observer \| (11)\
 
 ## Support
 
-Au moindre besoin, je suis joignable par mail jusqu'à fin août 2023 :
+Au moindre besoin, je suis joignable par mail jusqu'Ã  fin aoÃ»t 2023 :
 [antoine.klein\@insee.fr](mailto:antoine.klein@insee.fr){.email}
 
-Au delà de cette date, veuillez me joindre au travers du mail de ma
+Au delÃ  de cette date, veuillez me joindre au travers du mail de ma
 formation :
 [antoine.klein\@ensae.fr](mailto:antoine.klein@ensae.fr){.email}
 
 ## Roadmap
 
 Futurs axes de travail: 
--Exécuter le code sur d'autres régions.
--Etablir des graphiques de comparaison inter-régions.
+-ExÃ©cuter le code sur d'autres rÃ©gions.
+-Etablir des graphiques de comparaison inter-rÃ©gions.
 
 ## Contribution
 
-Ce dépot, lui-même extension du kit AU33, est ouvert à tout ajout !
+Ce dÃ©pot, lui-mÃªme extension du kit AU33, est ouvert Ã  tout ajout !
 
 ## Auteur et remerciements
 
-Dépôt crée par Antoine Klein, stagiaire ENSAE de la DR67 entre Juin et
-Août 2023 Je remercie la DR67 de l'INSEE pour m'avoir fait confiance au
-travers de ce stage d'été lors de ma 2A ENSAE. Merci à Vivien Heim pour
-cette confiance, à Vincent Monchâtre pour la supervision du stage et à
-Lionel Cacheux pour m'avoir aidé lors de la cartographie.
+DÃ©pÃ´t crÃ©e par Antoine Klein, stagiaire ENSAE de la DR67 entre Juin et
+AoÃ»t 2023 Je remercie la DR67 de l'INSEE pour m'avoir fait confiance au
+travers de ce stage d'Ã©tÃ© lors de ma 2A ENSAE. Merci Ã  Vivien Heim pour
+cette confiance, Ã  Vincent MonchÃ¢tre pour la supervision du stage et Ã 
+Lionel Cacheux pour m'avoir aidÃ© lors de la cartographie.
 
 ## Licence
 
@@ -163,4 +157,4 @@ MIT License
 
 ## Statut du projet
 
-Projet toujours en cours d'élaboration
+Projet toujours en cours d'Ã©laboration
