@@ -1,0 +1,32 @@
+---
+title: "Structure des données du tableau de bord"
+author: "Julien PRAMIL"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Visualisation des données en intrant du tableau de bord.
+
+Ces données sont organisées sous forme d'une liste de listes (de listes...), à la manière des « poupées russes ».
+
+Pour des raisons computationnelles, nous ne détaillons pas le contenu des listes au-delà des niveaux suivants : 
+
+- carreaux : table de données dont l'unité statistique est le carreau (tous les carreaux non vides).
+- segreg : liste des indicateurs de ségrégation et des éléments des décompositions QP/hors-QP et par groupes sociaux.
+- quant : quantiles de revenus servant à la définition des groupes sociaux (champs = toute la population de la zone d'étude).
+- id_carreaux_QP : identifiants des carreaux servant à reconstituer les QP (vide en dehors des grilles de 200 mètres).
+
+```{r structure, echo=FALSE, message=TRUE, warning=TRUE}
+# On reconstruit le squelette de la liste
+lcouches <- readRDS("X:/HAB-PSAR-AU-AU33-DEV/au33_v2/data/output/pour_utilisateurs/lcouches.RDS")
+library(listviewer)
+library(purrr)
+
+
+l0 <- lcouches %>% modify_depth(4,function(l){NA} )
+jsonedit(l0,height = 500)
+```

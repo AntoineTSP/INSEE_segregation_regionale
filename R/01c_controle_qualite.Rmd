@@ -1,0 +1,289 @@
+---
+title: "Contrôle qualité des bases RFL-Filo"
+author: "Julien PRAMIL"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::downcute:
+    self_contained: true
+---
+
+```{r setup, include=FALSE}
+
+
+options(max.print="75")
+
+knitr::opts_chunk$set(
+	echo = F,
+	message = FALSE,
+	warning = FALSE
+)
+knitr::opts_knit$set(width=200)
+
+colorize <- function(x, color) {
+  sprintf("<span style='color: %s;'>%s</span>", color,x)
+}
+
+knitr::opts_knit$set(root.dir = 'U:/developpements/au33_v2/au33_dev')
+
+```
+
+# Prétraitements effectués
+
+Bases ménages utilisées : 
+
+- RFL 2004 : "X:/HAB-RFL-Mise-a-disposition/HAB_A1223040_DMMICSAS/MENIR.sas7bdat"
+- RFL 2005 : "X:/HAB-RFL-Mise-a-disposition/HAB_A1223050_DMMICSAS/MENIR.sas7bdat"
+- RFL 2006 : "X:/HAB-RFL-Mise-a-disposition/HAB_A1223060_DMMICSAS/MENIR.sas7bdat"
+- RFL 2007 : "X:/HAB-RFL-Mise-a-disposition/HAB_A1223070_DMMICSAS/MENIR.sas7bdat"
+- RFL 2008 : "X:/HAB-RFL-Mise-a-disposition/HAB_A1223080_DMMICSAS/MENIR.sas7bdat"
+- RFL 2009 : "X:/HAB-RFL-Mise-a-disposition/HAB_A1223090_DMMICSAS/Menirmet09.sas7bdat"
+- RFL 2010 : "X:/HAB-RFL-PROD/2010/INFRA/MENAGE/MENIR/Menirmet10.sas7bdat"
+- RFL 2011 : "X:/HAB-RFL-PROD/2011/INFRA/MENAGE/MENIR/Menirmet11.sas7bdat"
+- Filosofi 2012 : "X:/**HAB-FILOSOFI-PROD**/BASES12/n_infra.zip/n_infra/n_revdisp12.sab7bdat"
+- Filosofi 2013 : "X:/**HAB-FILOSOFI-PROD**/BASES13/n_infra.zip/n_infra/n_revdisp13.sab7bdat"
+- Filosofi 2014 : "X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2014/Table Ménages/données/menages14.sas7bdat"
+- Filosofi 2015 : "X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2015/Table Ménages/données/menages15.sas7bdat"
+- Filosofi 2016 : "X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2016/Table Ménages/données/menages16.sas7bdat"
+- Filosofi 2017 : "X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2017/Table Ménages/données/menages17.sas7bdat"
+- Filosofi 2018 : "X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2018/Table Ménages/données/menages18.sas7bdat"
+- Filosofi 2019 : "X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2019/Table Ménages/données/menages19.sas7bdat"
+
+
+À partir des bases ménages SAS : 
+
+- Sélection des variables d'intérêt
+- Renommage des variables (en appliquant les noms de Filosofi aux bases RFL)
+- Export en .csv
+- Conversion des variables en formats numérique ou caractère : 
+  * Ceci peut générer des NA en cas de valeurs incohérentes.
+- Création de la variable `dep` correspondant au deux premiers caractères de `depcom` en métropole, et aux 3 premiers pour les DOM.
+- Sélection des ménages de métropole, de la Martinique et de la Réunion à partir de leurs `depcom`
+- Remplacement des identifiants anonymisés par les dirnoseq (bases Filosofi)
+  - On utilise pour cela les tables de passages de type "n_revdispXX.sas7bdat" dans le coffre **HAB-FILOSOFI-PROD**
+  - Pour les milléismes 2012 et 2013 : aucune table de passage n'existe. On utilise alors la table ménages dans le coffre de production car elle contient le dirnoseq (contrairement à la table ménages du coffre **HAB-FILOSOFI-DONNEES-NBL**).
+
+
+# Principaux résultats
+
+* Nombre de ménage
+    * Hausse entre 2006 et 2007 suite à la prise en compte des ménages ayant connu un évènement fiscal (mariage, décès, séparation). Correspond à environ 700 000 ménages. Ces ménages présentent des valeurs manquantes de revenus et un nombre de personnes égal à 0.
+    * Baisse en 2012 suite au passage à Filosofi, puis net rattrapage en 2014. Cela s'explique par l'inclusion de ménages DOM à partir de Filosofi 2014.
+    * Forte hausse en 2019 (environ +450 000). `r colorize("Pourquoi ?","red") `  
+
+* **Revenus négatifs**
+    * Proportion faible (entre 0,2\ % et 0,1\ %)
+    * En diminution depuis 2013.
+
+* **Revenus strictement nuls**
+    * Proportion comprise entre 1,6 % et 2,8 % des ménages
+    * Fortes augmentation en 2014 du fait de l'intégration des DOM aux données. En effet, la part de ménages avec des revenus strictement nuls est beaucoup plus forte à La Réunion et en Martinique qu'en métropole (`r colorize("Pourquoi ?","red") `)
+    * Forte augmentation en 2019. Visible pour toutes les régions. (`r colorize("Pourquoi ?","red") ` )
+
+* **Présence de NA**
+    * Aucun NA sur le nombre de personnes
+    <!-- * 686\ 766 ménages ont un revenu NA en 2007 et un nombre de personnes nul -->
+    * Pas de valeurs manquantes sur les identifiants et pas de doublons
+    * Pour les coordonnées géographiques
+        * Beaucoup de NA sur RFL : 
+          * 12 à 15 millions de NA sur les millésimes de 2004 à 2010
+          * 25 millions (sur 26 millions de ménages) en 2011
+        * Pas ou peu de NA sur les millésimes Filosofi (`r colorize("regarder ces ménages","red") ` )
+          * Sur 2014, les 44 ménages concernés proviennent des 3 communes (sans histoire de fusion-scission particulière) :
+            * 14060 : Bénouville  
+            * 31462 : Rouffiac-Tolosan 
+            * 33535 : Tresses 
+
+
+# Résultats détaillés
+
+## Focus sur le nombre de ménages dans les bases
+
+
+```{r mes_options,include=F}
+source("R/00a_global.R")
+
+lquali <- readRDS(paste0(chemin_output,"qualite_inputs/lquali.RDS"))
+noms_lquali <- names(lquali)
+annees <- paste0("20",str_remove(noms_lquali,"men"))
+
+```
+
+
+```{r}
+
+tab_men <- lquali %>% 
+  map_df("nbmen") %>% 
+  pivot_longer(cols=everything(),names_to = "annee", values_to = "nb_menages")
+
+plot_ly(tab_men, 
+                 x = ~annee, 
+                 y = ~nb_menages, 
+                 type = 'scatter', mode = 'lines+markers') 
+
+```
+
+
+## Part de ménages à revenus strictement nuls (en %)
+
+```{r}
+
+
+tabRevNul <- lquali %>% 
+  map_df(~100*.x[["revNul"]][["tot"]]/.x[["nbmen"]]) %>% 
+  pivot_longer(cols=everything(),names_to = "annee", values_to = "part_revNuls")
+
+plot_ly(tabRevNul, 
+                 x = ~annee, 
+                 y = ~part_revNuls, 
+                 type = 'scatter', mode = 'lines+markers') 
+
+```
+
+
+## Part de ménages à revenus strictement négatifs (en %)
+
+```{r}
+
+
+tabRevNegat <- lquali %>% 
+  map_df(~100*.x[["revNegat"]]/.x[["nbmen"]]) %>% 
+  pivot_longer(cols=everything(),names_to = "annee", values_to = "part_revNegat")
+
+plot_ly(tabRevNegat, 
+                 x = ~annee, 
+                 y = ~part_revNegat, 
+                 type = 'scatter', mode = 'lines+markers') 
+
+```
+
+## Présence de ménages hors métropole (en %)
+
+```{r}
+
+
+tabmenDom <- lquali %>% 
+  map_df("nbMenDom") %>% 
+  pivot_longer(cols=everything(),names_to = "annee", values_to = "nbmen_dom")
+
+plot_ly(tabmenDom, 
+                 x = ~annee, 
+                 y = ~nbmen_dom, 
+                 type = 'scatter', mode = 'lines+markers') 
+
+
+
+
+
+```
+
+
+
+## Valeurs manquantes dans les différentes variables
+
+
+
+```{r}
+
+knitr::kable(
+  lquali %>% map_df("nbNA", .id="annee"),
+  caption = "Nombre de NA"
+)
+
+  
+knitr::kable(
+  tabvide <- lquali %>% map_df("nbvide", .id="annee"),
+  caption = "Nombre de valeurs vides"
+)
+
+
+```
+
+
+
+
+## Doublons des identifiants des ménages
+
+
+```{r}
+knitr::kable(
+  lquali %>% map_df("nbdoublons") %>% pivot_longer(cols=everything(),names_to = "annee", values_to = "nb_doublons"),
+  caption = "Nombre de doublons sur les identifiants"
+)
+```
+
+
+
+## Valeurs extrêmes sur les revenus et les nombres d'individus
+
+```{r}
+
+tabmin <- lquali %>% map_df("min", .id="annee")
+tabmax <- lquali %>% map_df("max", .id="annee")
+tabminmax <- tabmin %>% left_join(tabmax,by="annee",suffix=c(".min",".max"))
+
+
+knitr::kable(
+  tabminmax,
+  caption = "Valeurs maximales et minimales"
+)
+
+```
+
+
+## Proportion régionale de revenus nuls
+
+```{r}
+tabRevNul_reg <- lquali %>% 
+  map(~.x[["revNul"]][["tabreg"]]) %>% 
+  rbindlist(idcol = "annee")
+  
+tabRevNul_reg[,annee:=as.factor(annee)] 
+tabRevNul_reg[,libReg:=as.factor(libReg)] 
+
+plot_ly(tabRevNul_reg, 
+                 x = ~annee, 
+                 y = ~partzero, 
+                 color = ~libReg, 
+                 type = 'scatter', mode = 'lines+markers') 
+```
+
+# Corrections effectuées *a posteriori*
+
+* Ajout des XY récents par appariement au Dirnoseq (table passage Gabrielle)
+    * Pour RFL comme Filosofi
+    * Idée : pour un dirnoseq donné, on privilégie les xy récents (si disponibles dans la table de passage).
+* filtrage des ménages ayant des revenus négatifs
+* filtrage des ménages sans XY après appariement
+* Passage des cog en géographie 2022
+    * Uniquement correction des cog de communes ayant fusionné
+* Suppression des cog des arrondissements communaux de Paris-Lyon-Marseille
+
+
+# Annexes
+
+## Date de la dernière modification des bases ménages SAS
+
+- RFL 2004 : `r file.info("X:/HAB-RFL-Mise-a-disposition/HAB_A1223040_DMMICSAS/MENIR.sas7bdat")$mtime %>% str_sub(1,10)`
+- RFL 2005 : `r file.info("X:/HAB-RFL-Mise-a-disposition/HAB_A1223050_DMMICSAS/MENIR.sas7bdat")$mtime %>% str_sub(1,10)`
+- RFL 2006 : `r file.info("X:/HAB-RFL-Mise-a-disposition/HAB_A1223060_DMMICSAS/MENIR.sas7bdat")$mtime %>% str_sub(1,10)`
+- RFL 2007 : `r file.info("X:/HAB-RFL-Mise-a-disposition/HAB_A1223070_DMMICSAS/MENIR.sas7bdat")$mtime %>% str_sub(1,10)`
+- RFL 2008 : `r file.info("X:/HAB-RFL-Mise-a-disposition/HAB_A1223080_DMMICSAS/MENIR.sas7bdat")$mtime %>% str_sub(1,10)`
+- RFL 2009 : `r file.info("X:/HAB-RFL-Mise-a-disposition/HAB_A1223090_DMMICSAS/Menirmet09.sas7bdat")$mtime %>% str_sub(1,10)`
+- RFL 2010 : `r file.info("X:/HAB-RFL-PROD/2010/INFRA/MENAGE/MENIR/Menirmet10.sas7bdat")$mtime %>% str_sub(1,10)`
+- RFL 2011 : `r file.info("X:/HAB-RFL-PROD/2011/INFRA/MENAGE/MENIR/Menirmet11.sas7bdat")$mtime %>% str_sub(1,10)`
+- Filosofi 2012 (depuis les bases de production pour avoir les dirnoseq) : `r file.info("X:/HAB-FILOSOFI-PROD/BASES12/n_infra.zip")$mtime %>% str_sub(1,10)`
+- Filosofi 2013 (depuis les bases de production pour avoir les dirnoseq) : `r file.info("X:/HAB-FILOSOFI-PROD/BASES12/n_infra.zip")$mtime %>% str_sub(1,10)`
+- Filosofi 2014 : `r file.info("X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2014/Table Ménages/données/menages14.sas7bdat")$mtime %>% str_sub(1,10)`
+- Filosofi 2015 : `r file.info("X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2015/Table Ménages/données/menages15.sas7bdat")$mtime %>% str_sub(1,10)`
+- Filosofi 2016 : `r file.info("X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2016/Table Ménages/données/menages16.sas7bdat")$mtime %>% str_sub(1,10)`
+- Filosofi 2017 : `r file.info("X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2017/Table Ménages/données/menages17.sas7bdat")$mtime %>% str_sub(1,10)`
+- Filosofi 2018 : `r file.info("X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2018/Table Ménages/données/menages18.sas7bdat")$mtime %>% str_sub(1,10)`
+- Filosofi 2019 : `r file.info("X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2019/Table Ménages/données/menages19.sas7bdat")$mtime %>% str_sub(1,10)`
+
+
+
+
+
+```{r eval=FALSE, include=FALSE}
+rmarkdown::render('R/02b_controle_qualite.Rmd', output_file = paste0(chemin_rapportsRmd,"controle_qualite.html"))
+```

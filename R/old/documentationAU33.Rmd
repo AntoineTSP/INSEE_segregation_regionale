@@ -1,0 +1,1047 @@
+---
+title: "AU33 - Évolution pluriannuelle de la ségrégation par le revenu à l’infracommunal"
+subtitle: "Documentation du lot 1 de l'investissement (v2)"
+author: "Julien PRAMIL - PSAR AU - DDAR"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+    theme: simplex
+    number_sections: yes
+    highlight: tango
+---
+
+
+
+# Cadre de l'investissement
+
+## Contexte – objectifs
+
+La thématique de la ségrégation voit son intérêt renouvelé, notamment auprès des acteurs publics, dans le cadre des questionnements contemporains sur la cohésion sociale, le communautarisme, l'entre-soi, la relégation et les phénomènes d'évitement. De même, la redéfinition prochaine de la géographie des quartiers de la politique de la ville (QPV - à l'horizon 2022) ravive le besoin d'éclairer cette thématique à partir d'outils et de données actualisés.
+
+Au-delà de la quantification des phénomènes en niveau (identification des zones de forte ségrégation, comparaisons des quartiers et/ou des grandes villes), l'évaluation en longitudinal a une importance toute particulière, notamment dans le cadre des politiques publiques déployées pour favoriser la « mixité sociale ». Au niveau national, la Loi solidarité et renouvellement urbain (SRU) de 2000 a oeuvré pour imposer un taux minimum de logement sociaux par commune, et les lois Borloo (2003) ou Lamy (2014) ont porté les opérations de rénovation urbaine puis de renouvellement urbain dans la même optique. Sur le plan local, des réformes de la carte scolaire peuvent avoir le même objectif. 
+
+Les phénomènes de ségrégation résidentielle ont une forte inertie dans le temps, ce qui nécessite de travailler sur une fenêtre temporelle suffisamment large.
+
+De nombreux travaux sur la ségrégation ont été réalisés à partir de données issues du recensement de la population, mais aussi à partir des données fiscales (en particulier J.M Floch en 2017). Ces deux sources ont la particularité d’être assises sur un échantillon très large (et même exhaustif dans le cas des données fiscales), ce qui rend possible des analyses à une maille géographique fine. Les études en longitudinal sont cependant moins nombreuses. Les données fiscales sont alors particulièrement adaptées pour obtenir une fenêtre temporelle large avec un nombre de points important (seulement 3 points mobilisables à partir du nouveau RP à ce jour).
+
+## Enjeux – problématiques
+
+L'investissement AU33 a pour objectif d'apporter quelques éléments de réponses aux problématiques suivantes : 
+
+- « Les populations appartenant à des groupes sociaux différents vivent-elles les unes auprès des autres ou de façon séparée dans une ville donnée ? ».
+
+- « Comment évolue cette situation dans le temps, sur l’ensemble d’une ville mais aussi localement ? ».
+
+- « Une ville A est-elle plus ségrégée qu'une ville B ? Les évolutions temporelles sont-elles les mêmes dans les deux villes ? »
+
+- « Quels sont les quartiers les plus ségrégés, qu'ils soient en moyenne riches ou pauvres ? Quels sont les groupes sociaux qui se ségrègent le plus dans une ville donnée ? »
+
+- « Quels liens peuvent-ils être faits entre les politiques micro-locales d'urbanisme et l'évolution de la ségrégation ? »
+
+## Définitions - concepts
+
+### Généralités sur le concept de ségrégation
+
+Dans le cadre de cet investissement, la ségrégation d'une zone d'étude correspond à « l'état de séparation des personnes appartenant à des groupes sociaux différents » en son sein. Le niveau de ségrégation d'une zone d'étude peut donc être défini comme le degré de différenciation sociale moyen des différents sous-espaces (quartiers, carreaux, etc.) qui la composent, par rapport la moyenne de la zone. **Plus simplement, une ville est d'autant plus ségrégée que ses quartiers sont peu représentatifs de la ville dans son ensemble, en termes de composition sociale. Autrement dit, la ségrégation va de pair avec les surreprésentations et sous-représentations des groupes sociaux que l'on observe localement**.
+
+Le terme de « ségrégation » renvoie ici à un **état de fait** plutôt qu’à une volonté de séparer ou de discriminer. Un état de fait qu'il convient de quantifier, et analyser dans le temps et dans l'espace, tout en accompagnant d'informations de contexte.
+
+À noter qu'il n'y a théoriquement pas équivalence entre « ségrégation » et « inégalités » : une ville très inégalitaire peut, en théorie, être très peu ségrégée, et inversement. Par exemple, si une ville est composée de très riches et de très pauvres, et s’il y a la même proportion de riches et la même proportion de pauvres dans chaque partie de la ville, alors la ville ne sera pas ségrégée (bien que très inégalitaire).
+
+### Une approche particulière dans le cadre de cet investissement
+
+#### La zone d'étude comme juxtaposition de carreaux
+
+La notion de ségrégation repose sur l'idée de comparer la présence de différents groupes sociaux à l'échelle locale relativement à leur présence à l'échelle globale (ici la ville). Il convient donc en premier lieu de définir ces niveaux d'observation.
+
+Le niveau global, ou la zone d'étude, correspondent à une ville donnée parmi les 53 plus importantes de France  (Strasbourg, Rennes, Bordeaux, etc.). Ces grandes villes sont définies à partir des **pôles** du Zonage en aire d'attraction des villes de l'Insee (**ZAAV**). Ainsi, ces villes correspondent à des zones densément peuplées en moyenne.
+
+Au niveau local, une ville est assimilée à une **juxtaposition de carreaux**. Par rapport à un découpage en Iris, la maille carroyée offre une échelle d'observation plus **fine** (notamment avec des carreaux de 200 mètres de côté) et permet surtout d'éviter l'effet MAUP (*Modifiable area unit problem*), bien connu en analyse spatiale. En résumé, l'effet MAUP peut se manifester quand le phénomène spatial étudié n'est pas indépendant de la maille d'observation, et ceci peut biaiser les représentations. Par exemple, les Iris étant par définition cohérents avec le bâti, leur construction n'est pas indépendante de leur composition en groupes sociaux.
+
+Dans le schéma ci-dessous, une même répartition spatiale d'un phénomène (individus malades ou non, en haut) aboutit à des représentation agrégées de l'espace (en bas) très différentes selon le découpage retenu. À gauche, la courbe divise l'espace en une zone sans malade et une zone avec 50 % de malade. À droite, la ligne divise l'espace entre une zone sans malade et une zone avec 100 % de malade. La segmentation de l'espace peut donc influencer la représentation des phénomènes observés. Elle doit donc être la plus indépendante possible de ce phénomène observé.
+
+```{r maup, fig.align = 'center', out.width = "50%", fig.cap = "Fig1. Exemple d'effet MAUP",echo=FALSE,fig.pos="H"}
+knitr::include_graphics("X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/maup.png")
+```
+
+
+
+Pour pouvoir observer les phénomènes de ségrégation à échelle fine, une grille carroyée est donc appliquée aux villes étudiées. Ainsi, le calcul des indicateurs à l'échelle des carreaux nécessite de disposer d'une source de données géolocalisée. Une source exhaustive facilite grandement l’analyse en limitant le nombre de carreaux vides ou avec un faible nombre de ménages. Par ailleurs, la possibilité d'analyser les évolutions dans le temps des indicateurs calculés à échelle fine nécessite que les données soient disponibles sur longue période.
+
+Pour que les calculs des niveaux de ségrégation aient du sens, seuls les carreaux contenant 20 ménages ou plus sont retenus dans le champ. Ainsi, les zones d'études correspondent aux seules zones denses des pôles urbains des grandes villes.
+
+#### La ségrégation résidentielle
+
+L'investissement ne porte que sur l'étude de la ségrégation dite **résidentielle** : il sera uniquement question de la répartition spatiale des individus **selon leur lieu de résidence**. À noter que les phénomènes de ségrégations se manifestent bien au-delà de la question résidentielle : répartition spatiale des individus au cours de la journée, notamment sur le lieu de travail, ségrégation des élèves dans les établissements scolaires, etc.
+
+#### Les groupes sociaux comme groupes de revenus
+
+##### Le recours aux dispositifs RFL et Filosofi
+Le besoin de disposer d'une source géolocalisée, exhaustive, et avec un certain recul temporel, conduit logiquement à mobiliser les dispositifs RFL (Revenus fiscaux localisés) et Filosofi (Fichier localisé social et fiscal) de l'Insee. Ces dispositifs offrent des **bases ménages géolocalisées de 2004 à 2017** issues des fichiers fiscaux.
+
+Bien qu'ayant des finalités proches, RFL et Filosofi sont deux dispositifs distincts et dont les concepts, les champs et les traitements peuvent différer. Ils permettent d'obtenir, en particulier, des informations socio-économiques à échelle géographique très fine. RFL offre des bases de données pour les millésimes 2004 à 2011 inclus. Filosofi couvre actuellement les millésimes 2012 et 2017 inclus. L'inertie des phénomènes de ségrégation étant importante, une analyse en longitudinal nécessite une fenêtre temporelle relativement large (par exemple, l'évolution de la ségrégation d'une ville d'une année sur l'autre est généralement très limitée, mais des tendances se dégagent à l’échelle d’une décennie). Afin d'élargir au maximum l'horizon temporel, les résultats de ces deux dispositifs sont joints afin d'étudier la ségrégation sur 14 années, de 2004 à 2017 incluses.
+
+
+##### Approche par le revenu déclaré par unité de consommation
+
+Les deux dispositifs fournissent des indicateurs de revenus des *ménages fiscaux*. L'investissement AU33 abordera la question de la **ségrégation à travers les disparités de revenus**.
+
+Au-delà de son intérêt propre, le revenu peut être vu comme un *proxy* de la catégorie socio-professionnelle des individus, ou encore d'autres distinctions sociales de la population.
+
+Néanmoins, il peut sembler restrictif de limiter l'analyse de la ségrégation au seul prisme économique. Il eût été intéressant d'analyser les phénomènes de spécialisation spatiale des quartiers en fonction de caractéristiques socio-démographiques telles que les niveaux de diplômes, les origines migratoires ou encore la catégorie socioprofessionnelle des individus. Malheureusement, le recensement de la population contient bien ce type d'informations mais n'est pas adapté aux contraintes de cet investissement, et notamment l'exigence d'analyser le phénomène dans le temps et à échelle géographique très fine.
+
+L'investissement AU33 utilise le **revenu déclaré** comme mesure du revenu, alors qu’il aurait été logique de  mobiliser le revenu disponible. Filosofi contient bien ce revenu disponible, mais celui-ci n’est pas présent dans RFL (du moins, il est de qualité variable car issu d'imputations) ; seul le revenu déclaré permet donc d’assurer la cohérence entre RFL et Filosofi et avoir des séries longues. L'utilisation du revenu déclaré est cependant pertinente dans AU33 pour étudier la ségrégation, car AU33 s’intéresse à la position d’un ménage dans la distribution des revenus, et non au niveau de revenu de ce ménage. Sous l'hypothèse – réaliste - que la redistribution n'affecte pas (ou peu) la position des ménages dans la distribution des revenus (progressivité de la redistribution), les analyses en revenu déclaré et en revenu disponible donneront donc des résultats semblables. 
+
+À noter que l'utilisation des revenus, déclarés ou disponibles, issus des fichiers fiscaux n'est acceptable que sous l'hypothèse que la non-déclaration/fraude ne crée pas une distorsion entre la distribution de revenus et la distribution des revenus réellement perçus. Cette hypothèse est par définition non-vérifiable.
+
+Afin d'éviter les effets de composition dus à la taille des ménages, les revenus déclarés sont rapportés au nombre d'unités de consommation du ménage (de manière analogue au calcul du niveau de vie). Les différentes analyses sont donc réalisées **à l'échelle des individus** et non à l'échelle des ménages (quand bien même il s'agit de l'unité statistique des bases de données en entrée). Ainsi, les distributions et les différents indicateurs de revenus ou de ségrégation sont calculés sur la base des individus (par pondération grâce à la connaissance de la composition du ménage). À chaque individu est associé le revenu déclaré de son propre ménage.
+
+Enfin, les groupes sociaux sont définis en fonction des **quintiles de revenus par unité de consommation** de l'ensemble des habitants de la zone d'étude (= ville pour une année donnée). Ainsi, on obtient 5 groupes d'individus de taille semblable (20 % de la population totale), pour chaque année. On souhaite ici décrire à quel point la répartition de ces groupes dans certains points précis du territoire s’écarte de la répartition globalement équilibrée à l’échelle de la ville. 
+
+
+#### Utilisation de l'indice de Theil
+
+Les indices de Theil forment une famille d'indices de ségrégation couramment utilisée dans la littérature.
+
+Ils reposent tout d'abord sur la notion d'**entropie**. L'entropie est une fonction mathématique utilisée en physique pour mesurer l'état de désordre d'un système. Dans les sciences sociales, son utilisation vise à quantifier la mixité de la population. Ici la mixité correspond à la diversité des individus du point de vue de leurs groupes sociaux respectifs dans une portion de territoire donnée. Ainsi, l'entropie est maximale quand les individus sont équirépartis parmi les différents groupes sociaux. Dans AU33, les groupes sociaux sont définis par l’appartenance à un quintile de la distribution de revenus, quintiles mesurés à l’échelle de la zone d’étude / ville. Par construction, l'entropie est donc maximale à l'échelle de cette zone d'étude/ville, car chaque groupe de revenus représente 20 % des individus. Dans un carreau, l'entropie est maximale si 20 % des individus du carreau appartiennent à chacun des quintiles définis au niveau de la ville. Elle est minimale et égale à zéro quand un seul groupe social est représenté dans le carreau (par exemple, que des personnes du premier quintile, ou que des personnes du dernier quintile, etc.).
+
+L'indice de ségrégation de Theil mesure l'écart relatif et pondéré entre l'entropie de la zone d'étude/ville et celle de chaque carreau la composant. Ainsi, la valeur de l'indice est d'autant plus forte que la distribution des groupes sociaux de chaque carreau s’écarte de celle de la ville entière. Autrement dit, l'indice de Theil est d'autant plus grand que les carreaux sont peu représentatifs de la ville dans son ensemble sur le plan des revenus.
+
+Par ailleurs, l'indice de ségrégation de Theil est **multigroupes** : il mesure conjointement la ségrégation pour l'ensemble des groupes sociaux. Autrement dit, cet indicateur ne se focalise pas sur un unique groupe social, ce qui aboutit en général à ne considérer que la ségrégation des groupes sociaux extrêmes (les plus pauvres ou les plus aisés), de manière peu synthétique, et en laissant de côté les éventuels phénomènes de ségrégations sur les groupes intermédiaires (les « classes moyennes »). Ainsi, la notion de ségrégation à travers l'indice de Theil est neutre au sens où elle quantifie simultanément la spécialisation spatiale des ménages aisés (« entre-soi »), des ménages pauvres et des catégories de revenus intermédiaires.
+
+Enfin, l'indice de Theil présente d'appréciables propriétés de **décomposabilité**. En particulier, il est possible de décomposer l'indice total (ou multigroupes) en fonction de la ségrégation binaire de chaque groupe (par exemple, la ségrégation des individus appartenant au groupe formé par le premier quintile de revenus, relativement au reste de la population). D'autre part, l'indice se décompose aussi spatialement : ceci permet de connaître l'influence de certains sous-territoires (par agrégation de carreaux) sur la ségrégation totale mesurée à l'échelle de la ville. La décomposition entre quartiers de la politique de la ville (QP) et zones hors-QP est ainsi étudiée dans AU33.
+
+À noter que la configuration géographique des carreaux n'est pas prise en compte dans le calcul de l'indice de Theil : l'autocorrélation spatiale des entropies n'a pas d'importance. Autrement dit, que les carreaux semblables en termes de mixité se regroupent géographiquement, ou bien qu'ils soient éparpillés sur le territoire, ceci n'a pas d'importance sur la valeur de l'indice de Theil : seul l'écart entre l'entropie des carreaux pris un par un et l'entropie de la ville compte dans le calcul. Pour illustrer ce point, on peut imaginer le cas simplifié d'une ville ne comportant que 2 types de carreaux : des carreaux mixtes (entropie élevée) et des carreaux non-mixtes (entropie faible). **L'indice de Theil est le même dans les deux configurations ci-dessous même si la configuration géographique des carreaux diffère**.
+
+```{r contiguite, fig.align = 'center', out.width = "75%", fig.cap = "Fig2. Absence d'effet de la disposition géographique",echo=FALSE,fig.pos="H"}
+knitr::include_graphics("X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/contiguite.png")
+```
+
+
+L'indice de Theil est donc une mesure **très synthétique et neutre** de la ségrégation. Néanmoins, son caractère multigroupes et son recours à la notion d'entropie (qui est une fonction non-linéaire) rendent son **interprétation complexe**. En effet, il n'est pas possible de ramener son niveau, ni même son évolution, à des interprétations qualitatives et facilement interprétables. Ainsi, les indices de Theil sont essentiellement utilisables de manière ordinale (par exemple : « la ségrégation de la ville A est plus élevée que la ségrégation de la ville B », « la ségrégation de la ville A a augmenté entre 2012 et 2017 »). Ceci étant dit, la possibilité de décomposer l'indice de Theil offre du détail et des éléments de contexte pour pallier cette complexité d'utilisation et d'interprétation.
+
+Dans le cas de la décomposabilité spatiale, l'indice de Theil fournit une décomposition qui n'est pas théoriquement parfaite, même si tout-à-fait acceptable en pratique. 
+Ainsi, l'investissement mobilise également **l'indice d'information mutuelle (IIM)**, qui n'est autre que l'indice de Theil dans une version non-normalisée. L'IIM a l'avantage d'être spatialement décomposable de façon plus rigoureuse. 
+Concrètement, les résultats entre ces deux versions sont très proches (en dehors des niveaux des indices), et l’IIM sert uniquement à s'assurer que les résultats fournis par l'indice de Theil sont acceptables.
+
+
+
+Pour plus de détails techniques sur ces indices, voir l'**Annexe 4.1**.
+
+
+# Champ de l'investissement, données et qualité
+
+## Champ
+
+### Les pôles des 50 plus grandes AAV
+L'investissement porte sur les **pôles des 50 plus grandes aires d'attraction des villes de France métropolitaine en 2017**. Les années étudiées couvrent la période 2004-2017.
+
+À noter que sont exclus des pôles étudiés les pôles secondaires des aires d'attraction multipolaires (comme Mantes-la-Jolie pour l'AAV de Paris, Aix-en-Provence pour l'AAV d'Aix-Marseille, etc.).
+
+### Les ménages fiscaux et la question des étudiants
+La ségrégation est calculée à partir des individus répertoriés dans les **ménages fiscaux** présents dans les bases RFL-Filosofi. À noter que le concept de **ménage fiscal** n'est pas équivalent au concept de ménage du recensement de la population. 
+En effet, un ménage fiscal se compose de l'ensemble des foyers fiscaux (déclarations) associés à une même taxe d’habitation d’une résidence principale. Les individus qui constituent le foyer fiscal sont le déclarant fiscal, le conjoint et les personnes à charge. 
+
+Les **étudiants** peuvent faire exception à cette règle : les étudiants rattachés à la déclaration fiscale de leurs parents  (même foyer fiscal) appartiennent au ménage fiscal de leurs parents dans les bases de données RFL-Filosofi alors qu’ils peuvent éventuellement vivre dans un logement indépendant. Ceci peut distordre leur répartition géographique et biaiser localement les résultats de la ségrégation mesurée, en particulier dans les quartiers à forte proportion d'étudiants (d'autant que leur situation de revenus n'est pas toujours à l'image de celle de leurs parents).
+
+D'autre part, les ménages fiscaux excluent les personnes vivant en communautés (internats, foyers de travailleurs, casernes, etc.). 
+
+### Absence des ménages ayant connu un évènement fiscal dans les bases RFL 2004, 2005 et 2006
+
+Pour les millésimes RFL 2004, 2005 et 2006, les ménages ayant connu un **évènement fiscal** sont hors-champ et ne figurent pas dans les bases (MDS : mariages, décès, séparations). À partir de RFL 2007 et jusqu'aux bases Filosofi, les ménages ayant connu un évènement fiscal sont intégrés dans le champ. Comme la distinction de ces ménages MDS n'est pas possible dans Filosofi, il y a obligatoirement une rupture dans le champ des ménages pris en compte entre RFL 2004-2005-2006 d'une part et les autres millésimes d'autre part. Les ménages non pris en compte de 2004 à 2006 comptent pour 2,9 % du nombre théorique total de ménages ces années-là.
+
+### Supression des ménages déclarant des revenus négatifs
+Une très faible part des ménages déclare des **revenus négatifs** : en conformité avec les préconisations de la division DSRL, ces ménages sont supprimés des bases lors de l'exploitation. Néanmoins, une part faible mais non négligeable de ménages déclare des revenus strictement nuls (entre 1,6 % et 2,4 % des ménages selon l'année). Ces ménages sont conservés dans les bases de données.
+
+### Exclusion des carreaux de moins de 20 ménages
+
+Une fois le pôle découpé en grille carroyée, **les carreaux ne contenant pas suffisamment de ménages sont exclus du champ**. En effet, les carreaux peu peuplés présentent fréquemment des distributions extrêmes par simple effet de nombre, et donc de très forts niveaux de ségrégation qui augmentent artificiellement les indices calculés à l'échelle de la ville et leur volatilité. D'autre part, cette restriction aux seules zones denses des différents pôles urbains améliore la comparabilité entre les villes étudiées. Ainsi, les individus vivant dans ces carreaux ne contribuent ni à la définition des groupes sociaux ni au calcul de la ségrégation. En médiane, ce filtrage exclut 4,5 % des individus des villes. Le compte-rendu du quatrième groupe de travail détaille cette question du filtrage.
+
+Les chemins vers les bases de données en entrée sont fournis en annexes.
+
+## Création de couches de données carroyées
+
+Pour chaque zone d'étude, les entropies et les indicateurs de ségrégation sont calculés sur la base de carreaux : des bases de données carroyées ont donc été produites à partir des bases ménages.
+
+Pour chaque *version* possible, une base de données carroyée et différents indicateurs sont fournis à l'utilisateur.
+
+Les versions correspondent à l'ensemble des croisements possibles entre les différents paramétrages suivants : 
+
+- L'année (2004, 2005, 2006, ..., 2017)
+- Le pôle urbain (Paris, Lyon, ..., Rennes, ...)
+- La taille de la maille carroyée de base (200 mètres, 300 mètres, …, 2 km)
+- La prise en compte, ou non, des carreaux peu peuplés dans les calculs 
+
+Ainsi, AU33 fournit $14 * 50 * 5 *2 = 7 000$ versions des données. 
+
+Pour chaque version, les données en *outputs* comprennent :
+
+- une base carroyée.
+- la définition des groupes (quintiles de revenus par UC).
+- les indices de ségrégation de Theil et IIM avec l'ensemble des éléments disponibles sur leurs décompositions.
+
+À noter que la décomposition spatiale des indices de ségrégation (QP versus hors QP) n'est fournie que pour les versions avec une maille de 200 mètres de côté. En effet, avec une maille plus large, l'approximation des QP sous forme d'ensembles de carreaux est trop imprécise pour être retenue.
+
+Dans les programmes, cet ensemble de résultats est stocké sous forme d'une liste de listes emboîtées, dénommée « **lcouches** ». Une visualisation de la structure de cette liste est disponible ici : « /extrants/rapportsRmd/09_structureLcouches.html ». Celle-ci a pour objectif de faciliter la prise en main des données pour l'utilisateur. Des exemples de requêtages sont fournis dans la 3e partie si nécessaire.
+
+Les applications mises à la disposition des utilisateurs (voir *infra*) ne mobilisent pas toujours l'ensemble de ces versions. Par exemple, le tableau de bord ne propose que les résultats établis à partir du maillage en carreaux de 200 mètres.
+
+## Qualité, mises en garde et limites
+
+### Les contrôles effectués (pour information)
+Les bases ont subi plusieurs contrôles avant d'être exploitées. Ces contrôles n'ont pas révélé de problème particulier. Néanmoins, des corrections ont dû être apportées sur les coordonnées géographiques des ménages des bases RFL. Les annexes fournissent davantage de détails à propos.
+
+Par ailleurs, la distribution des revenus des ménages a été contrôlée *a posteriori*, notamment à la charnière des dispositifs RFL et Filosofi (entre 2011 2012). Cette opération n'a pas révélé de problème d'instabilité des distributions, ni au niveau national, ni au niveau régional. Là encore, les annexes présentent quelques détails supplémentaires et des renvois vers les travaux en question.
+
+### Qualité des géolocalisations
+Les utilisateurs doivent systématiquement garder à l'esprit que la géolocalisation des ménages fiscaux peut être de qualité variable. Les carreaux aux profils particuliers (valeurs extrêmes ou particulièrement isolés, forte volatilité d'une année à l'autre, etc.) doivent faire l'objet d'une vigilance particulière. Les cartes en 3D sont pratiques pour réaliser ces contrôles de cohérence et de qualité.
+
+### Les étudiants
+Comme indiqué *supra*, le mode de prise en compte des étudiants dans les sources fiscales est potentiellement source de biais, par rapport aux analyses qui pourraient être faites sur ce sujet avec d’autres sources (dont le RP). L'utilisateur doit donc se montrer particulièrement précautionneux dans les commentaires portant sur des quartiers à forte proportion d'étudiants dans la population.
+
+### Communication des agrégats
+
+**Avertissement** : Certains agrégats sont fournis comme éléments de contexte et de contrôle de la qualité, mais ne doivent pas être communiqués directement au sein des publications. Par exemple, la part d’habitants vivant en QPV est calculée à partir de la source fiscale et grâce à des approximations du zonage : ainsi elle ne peut correspondre exactement aux communications officielles de l’Insee.
+
+
+# Comment utiliser l'investissement ? Mode d'emploi
+
+## Liste des outputs de l'investissement
+
+En plus de la documentation, AU33 fournit :
+
+- Une liste **lcouches** contenant l'ensemble des données résultats/bases carroyées.
+- Une application de tableau de bord présentant les résultats à échelle macro.
+- Une application de cartographie 3D en longitudinal.
+- L'ensemble du code source contenu dans un projet R.
+
+Les paragraphes ci-dessous détaillent ces produits et leur fonctionnement.
+
+Les données et les applications sont stockées dans le coffre sécurisé **X:/HAB-PsarAU-segregation** appartenant à la DSAU/DAR : les utilisateurs devront faire une demande d'accès *via* Siamoi pour y accéder.
+
+## Structure des données et exemple de requêtage
+
+Comme indiqué *supra*, les données produites dans le cadre de cet investissement sont stockées dans une unique liste, contenant elle-même des listes. L'exemple de code ci-dessous permet d'extraire un échantillon de cette liste, regroupant les données propres à la « version » souhaitée (choix du pôle, de la taille des carreaux, et option de filtrage des carreaux peu peuplés). En l'occurrence, l'exemple porte sur le cas de : 
+
+- Strasbourg (dont le code AAV est "010").
+- Maillée en carreaux de 200 mètres de côté.
+- Avec un filtrage des carreaux peu peuplés.
+
+
+```{r requetage, eval=FALSE}
+
+#### Définir le répertoire de travail et celui des packages figés
+setwd("X:/HAB-PsarAU-segregation/au33")
+.libPaths("./packages")
+
+
+#### ouverture du package Tidyverse (ne pas l'installer, il est déjà présent dans le projet)
+library(tidyverse)
+
+#### Chargement des chemins
+source("R/00a_chemins.R")
+
+#### Lecture des données (attendre quelques secondes)
+lcouches <- readRDS(paste0(repo_couches,"lcouches.RDS"))
+
+#### Sélection de la version souhaitée (ici : le pôle de Strasbourg en carreaux de 200 mètres, uniquement pour les carreaux suffisamment peuplés)
+lcouches <- lcouches %>% map(c("ville010","c200","avecFiltrage"))
+```
+
+
+## Description du tableau de bord et cas d'étude
+
+### Ouverture du tableau de bord
+
+Double-clic sur le fichier « R/07b_app_dashboard.exe ».
+
+### Objectifs du tableau de bord
+
+Le tableau de bord permet de résumer la plupart des résultats à l'échelle de la ville choisie. L'utilisateur paramètre sa ville et visualise les résultats regroupés par menus et sous-menus.
+
+L'objectif est de proposer des graphiques/tableaux standardisés facilitant, pour le chargé d'étude, la construction de son analyse, et sans nécessité de manipuler directement l'information contenue dans le fichier de données.
+
+### Structure du tableau de bord
+
+Le choix de la ville se fait au niveau du panneau latéral gauche. Les résultats sont atteignables à l'aide des menus et sous-menus en haut de l'application.
+
+
+```{r TdB_vueEnsemble, fig.align = 'center', fig.cap = "Fig3. Structure du tableau de bord",echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/TdB_vueEnsemble.png")
+```
+
+
+L'ensemble des outils d'aide à l'interprétation sont générés :
+
+- pour l'indice de Theil
+- pour l'indice d'information mutuelle (IIM)
+
+<em style="color:blue">Pour autant, il est conseillé aux chargés d'étude de n'utiliser que l'indice de Theil. Pour la décomposition spatiale QP/hors-QP, il faut préalablement s’assurer que les résultats obtenus avec l’indice de Theil soient cohérents avec ceux obtenus par l’IIM.</em>
+
+Un volet de « Compléments » fournit un ensemble d'informations permettant de contrôler la qualité des résultats. En particulier, ce volet contient : 
+
+* Le nombre de carreaux de la zone d'étude.
+* Le nombre d'individus et ménages fiscaux.
+* La distribution de la population par carreaux.
+* Les quintiles des revenus par UC définissant les groupes sociaux dans la zone d'étude.
+
+
+
+## Explications concernant les cartes 3D
+
+### Principes
+
+L'application permet la création de cartes en 3 dimensions, auxquelles s'ajoute la dimension longitudinale.
+
+Cet outil a pour objectif de fournir au chargé d'étude des éléments de contexte à l'infracommunal pour étayer les résultats fournis dans le tableau de bord.
+
+L'objectif est de pouvoir savoir, au sein d'une ville : 
+
+- Où se trouvent les zones à forts niveaux de ségrégation ?
+- Quels sont les quartiers ségrégés aisés ? les quartiers ségrégés pauvres ?
+- Comment évolue la ségrégation dans tel ou tel quartier ?
+
+L'idée générale de ces cartes est de représenter des indicateurs de ségrégation en altitude, et de donner le niveau de richesse grâce aux couleurs.
+
+Ainsi, plus l'altitude est élevée et plus l'indicateur choisi indique un fort niveau de ségrégation. Par convention, les carreaux pauvres tendent vers le rouge tandis que les carreaux aisés tendent vers le bleu.
+
+
+### Utilisation
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 25px;
+border-radius: 5px;
+font-style: italic;
+}
+</style>
+
+<p class="comment">
+**Procédure temporaire de lancement de l'application** : 
+Comme l'application nécessite internet pour pouvoir afficher des fonds de cartes de type Openstreetmap, il faut la lancer en dehors de l'environnement AUS. En attendant d'avoir une solution pour l'héberger sur un serveur sécurisé, nous avons l'autorisation d'exporter temporairement l'application (et les données carroyées comportant 20 ménages et +) sur le poste de travail local. <strong>Il convient de supprimer l'application et les données du disque dur (yc de la corbeille) après chaque utilisation </strong> : <br>
+1) Installer de R 3.6.3 et de RStudio sur votre session locale <br>
+2) Copier-coller le dossier suivant sur votre lecteur Z ou autre : X:/HAB-PsarAU-segregation/AU33_carto3d <br>
+3) Ouvrir le projet avec RStudio et ouvrir le script R / app.R <br>
+4) Lancer le code (CTRL+A et CTRL+Entrée).<br>
+Cela peut prendre du temps (jusqu'à 1 heure)...
+</p>
+
+
+L'application permet à l'utilisateur de choisir sa ville d'intérêt (pôle dense maillé en carreaux de 200 mètres, dont les carreaux peu peuplés sont exclus).
+
+Une fois la ville choisie, l'utilisateur peut :
+
+* Analyser la ségrégation de manière **longitudinale** en faisant varier l'année d'observation (avec possibilité de faire défiler automatiquement les millésimes).
+* Choisir de visualiser la **ségrégation** de chaque carreau ou bien la **contribution** de chaque carreau à la ségrégation totale.
+* Lisser les grandeurs représentées en altitude pour limiter l'aspect erratique des cartes, et les rendre éventuellement plus synthétiques.
+
+*Nota* : à l'ouverture, seul le fond de carte de la ville de San Francisco est visible (situation par défaut dans le paquet DeckGl de cartographie). Faute de mieux, il faut faire varier un des paramètres pour voir apparaître une première couche carroyée (par exemple, l'année, ou la ville).
+
+Par défaut, il **convient d'utiliser la grille de 200 mètres** pour garder la cohérence avec les résultats calculés dans le tableau de bord. Pour certaines très grandes villes, les carreaux de 200 mètres forment un maillage trop dense du territoire, ce qui altère la lisibilité et ne permet pas une lecture simple et globale de la situation de la ville (par exemple à Lyon, ou *a fortiori* Paris). Ainsi, l'utilisateur peut choisir une maille plus large si nécessaire tout en gardant à l'esprit que ce changement modifie conceptuellement la mesure de la ségrégation, car il change le calcul des indicateurs pour chaque carreau.
+
+### Choix cartographiques et hypothèses
+
+#### Champ
+Les cartes ne portent que sur les carreaux comportant **au minimum 20 ménages** (c'est l'effectif en dessous duquel on considère que le calcul de l'entropie du carreau n'a plus de sens).
+
+#### Variables relatives à la ségrégation en altitude
+
+En altitude, l'utilisateur peut choisir de représenter la **ségrégation standardisée** de chaque carreau (écart relatif entre l'entropie du carreau et l'entropie de l'ensemble de la zone d'étude). Autrement, l'utilisateur peut aussi choisir de représenter la **contribution du carreau à l'indice de ségrégation total** de la zone d'étude. Il s'agit ici de pondérer la ségrégation standardisée du carreau par son poids démographique (voir les annexes pour plus de détails).
+
+L'altitude est proportionnelle à ces grandeurs : elle ne découle pas d'une discrétisation préalable. Par ailleurs, une règle automatique permet de borner l'altitude maximale représentée sur chaque carte en fonction de la taille de la zone d'étude. Plus précisément, pour chaque année, l'altitude de chaque carreau est multipliée par un coefficient constant. Ce coefficient permet de caler l'altitude maximale en 2004 à un dixième de la longueur de la ville. Ainsi, il est possible de comparer les altitudes entre les millésimes d'une même ville. En revanche, il ne faut pas comparer les altitudes d'une ville à l'autre.
+
+#### Lissage spatial de l'altitude
+
+Afin d'éviter un rendu trop erratique, un lissage spatial de la ségrégation (ou de la contribution) peut être réalisé. Par défaut, le **rayon de lissage correspond à trois fois la taille des carreaux**, soit 600 mètres. Les visualisations brute ou lissée peuvent être choisies par l'utilisateur.
+
+#### Les couleurs
+Les couleurs portent sur une discrétisation en quintiles des médianes de revenus observées à l'échelle des carreaux.
+Plus la couleur tend vers le rouge et plus la médiane des revenus déclarés par les habitants du carreau est faible. À l'inverse, plus la couleur tend vers le bleu et plus la médiane des revenus déclarés est élevée.
+
+Même en cas de lissage de l'altitude, la médiane est brute (aucun lissage de la couleur).
+
+#### Informations supplémentaires
+Au passage du curseur sur un carreau, plusieurs informations sont fournies pour faciliter l'interprétation : 
+
+* L'indice de ségrégation standardisé brut (non lissé)
+* L'indice de ségrégation standardisé lissé
+* La contribution du carreau à la ségrégation totale brute (non lissée)
+* La contribution du carreau à la ségrégation totale lissée
+* Le revenu déclaré par UC médian
+* Le nombre de ménages vivant dans le carreau (notamment pour contrôler la qualité des données et relativiser la portée des niveaux de ségrégation dans certains carreaux relativement peu peuplés par exemple)
+* Un numéro d'identification du carreau (pour faciliter les échanges dans le cadre du contrôle-qualité)
+
+
+### Technologies utilisées
+
+* Package DeckGl - version 0.2.9.9002 (version GitHub, non disponible sur le CRAN)
+* Application RShiny
+
+## Exemple d'utilisation pour analyser la situation de Strasbourg
+
+### Éléments de contexte minimum à rappeler au préalable
+
+* Zone d'étude = **zone dense** d'une ville (pôle urbain dont les carreaux trop faiblement peuplés sont retirés)
+* Étude de la ségrégation des **groupes de revenus** définis à partir des quintiles (groupes de même taille propre à chaque zone d'étude pour une année donnée)
+* Découpage de la zone d'étude en carreaux de 200 mètres. Ces carreaux correspondent à l'échelle d'observation locale.
+* Mobilisation de l'indice de Theil pour quantifier la ségrégation (autrement dit, l'écart de composition sociale entre la population globale de la zone d'étude et la population de chaque carreau).
+
+### Résultats à échelle de la ville
+
+**Ségrégation en diminution depuis 2004** :
+
+* Baisse rapide entre 2004 et 2008 (-4 %), puis relative stabilité depuis. 
+* Classement des plus fortes diminutions de la ségrégation entre 2004 et 2017 : 7e sur les 50 plus grosses villes de France métropolitaine
+
+**Un niveau de ségrégation intermédiaire à l’échelle nationale **:
+
+* Niveau « moyen » de la ségrégation en 2004 (22e sur 50) ⇒ « moyen-bas » en 2017 (29e sur 50).
+* Ville la moins ségrégée de la région Grand-Est depuis 2012.
+
+
+
+```{r casEtude1, fig.align = 'center',out.width="75%", fig.cap = "Fig4.",echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/casEtude1.png")
+```
+
+```{r casEtude2, fig.align = 'center',out.width="75%", fig.cap = "Fig5.",echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/casEtude2.png")
+```
+
+```{r casEtude3, fig.align = 'center',out.width="75%", fig.cap = "Fig6.",echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/casEtude3.png")
+```
+
+### Résultats à l’échelle des groupes sociaux
+
+**Les groupes extrêmes se ségrègent davantage **: 
+
+* Le groupe des personnes les plus aisées et le groupe des personnes les plus pauvres se ségrègent nettement plus que les autres groupes de revenus intermédiaires. 
+* Cette situation n’est pas propre à Strasbourg, elle existe à l’échelle des autres villes.
+
+**Divergence des dynamiques de ségrégation parmi les différents groupes sociaux **: 
+
+* Oppositions des dynamiques entre :
+  * Les plus pauvres : ils se sont fortement déségrégés entre 2004 et 2017 (-16 %)
+  * Les « pauvres intermédiaires » : ils se sont fortement ségrégés entre 2004 et 2017 (+22 %)
+
+```{r casEtude4, fig.align = 'center',out.width="75%", fig.cap = "Fig7.",echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/casEtude4.png")
+```
+
+```{r casEtude5, fig.align = 'center',out.width="75%", fig.cap = "Fig8.",echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/casEtude5.png")
+```
+
+**L’évolution des quartiers prioritaires (QP) a contribué à la baisse de la ségrégation totale depuis 2004, *via* 3 principaux canaux : **
+
+* Léger rattrapage de l'écart de composition sociale (la part des pauvres a légèrement diminué entre 2004 et 2017 dans les QP).
+* Forte baisse du poids démographique des QP dans la population totale de Strasbourg (-10 points) alors que les QP contribuent, par définition, très fortement au niveau de ségrégation total de la ville.
+* Baisse de la ségrégation interne des QP : les différents carreaux appartenant aux QP se sont homogénéisés. En 2017, les différents carreaux des QP sont davantage représentatifs des QP dans leur ensemble qu’en 2004.
+
+**Mais la ségrégation a fortement augmenté dans les quartiers hors QP **:
+
+* Hausse de 10 % de la ségrégation dans les quartiers hors QP.
+* Tendance à la hausse particulièrement marquée entre 2013 et 2017.
+
+```{r casEtude6, fig.align = 'center',out.width="75%", fig.cap = "Fig9.",echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/casEtude6.png")
+```
+
+```{r casEtude7, fig.align = 'center',out.width="75%", fig.cap = "Fig10.",echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/casEtude7.png")
+```
+### Résultats à échelle géographique très fine
+
+Distinction des quartiers à forts niveaux de ségrégation : 
+
+* Pauvres en moyenne : 
+  * Neuhorf
+  * Elsau
+  * Hautepierre
+  * Cronenbourg
+* Aisés en moyenne :
+  * Roberstau
+  * Neustadt
+
+Possibilité d'investiguer les évolutions de la ségrégation dans le temps. Les cartes en 3D intègrent un lissage, afin de faciliter leur lisibilité. Il faut cependant s'assurer que les messages issus des cartes lissées restent valables sans le lissage.
+
+
+```{r casEtude8, fig.align = 'center',out.width="75%", fig.cap ="Fig11.",echo=FALSE}
+
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/casEtude8.png")
+
+```
+
+### Quelques points de vigilance
+
+* Faire attention lors de l'évocation du nombre d'habitants dans les QPV (portée politique importante). Les chiffres officiels sont publiés par l'Insee, et sont actuellement basés sur le RP2013. Une actualisation est prévue fin 2021, basée sur le RP2018. Les estimations disponibles *via* AU33 sont des approximations pour plusieurs raisons : 
+  * Population de ménages fiscaux (et non de ménages au sens du RP)
+  * Approximation des QP à un ensemble de carreaux
+  * Filtrage des carreaux peu peuplés (dans cet exemple, le filtrage diminue la population du pôle de Strasbourg de 1,7 %).
+
+* Ne pas publier de chiffres sur les revenus maximum. Ils sont disponibles dans l'application (volet « compléments ») uniquement dans une optique de contrôle-qualité.
+
+* Pour la diffusion de chiffres, les règles d'arrondis de la source Filosofi font référence ("X:\HAB-FILOSOFI-DONNEES-NBL\Filosofi 2018\Table Ménages\documentation\Note_utilisateurs_2018_042021.pdf")
+
+
+
+## Secret statistique – confidentialité
+
+Dans les **applications**, les informations fournies ne peuvent pas aboutir à une rupture primaire du secret statistique. En particulier, dans l'application de cartographie, les carreaux contiennent au minimum 20 ménages (soit un nombre supérieur au seuil de confidentialité associé aux données fiscales).
+
+En revanche, il existe des informations confidentielles dans les bases de données en entrée des applications (nombre d'individus pauvres dans les carreaux de moins de 11 habitants par exemple). De plus, la comparaison de données carroyées de l'investissement AU33 avec des données externes issues de RFL-Filosofi, diffusées à l'échelle d'autres périmètres comme les Iris ou les communes, pourrait faire peser un risque de rupture du secret par différentiation.
+
+Ainsi, les résultats issus de la manipulation directe des données, et non présents dans les applications, doivent donc faire l'objet d'une attention particulière en termes de secret. Cette protection du secret est de la responsabilité des DR, pour les publications comme pour la transmission d'informations à des partenaires externes.
+
+
+# Annexes 
+
+## Méthodologie des indices de ségrégation
+
+### Quelques propriétés nécessaires aux indices de ségrégation dans le cadre de cette étude
+
+Ces explications sont largement inspirées de Givord, Afsa et al. (2016).
+
+Comme l'objectif est de comparer la ségrégation dans le temps pour une ville donnée, ou encore deux villes entre elles, l'indicateur de ségrégation utilisé doit satisfaire certaines propriétés.
+
+#### La propriété d'invariance d'échelle
+
+L'indice de ségrégation ne doit pas dépendre du nombre d'habitants de la ville, mais seulement de la distribution des groupes sociaux dans les carreaux. Ainsi, si la population d'une ville croît entre 2004 et 2017 mais que la répartition des groupes sociaux dans les différents carreaux reste inchangée, alors l'indice de ségrégation doit rester constant.
+
+#### La propriété d'invariance à la composition
+
+Si la part d'un groupe social augmente dans l'ensemble de la ville, et que la part de ce groupe augmente dans les mêmes proportions dans chaque carreau, alors l'indice de ségrégation doit rester constant.
+
+Dans le cadre d'AU33, cette propriété n'a pas d'importance car les groupes sociaux sont représentés dans des proportions constantes par définition, pour chaque ville et pour chaque année. En effet, pour chaque zone étudiée et pour chaque année, la population est divisée en 5 groupes de taille égale en fonction des quintiles de revenus (peu importe que la valeur de ces quartiles diffère entre deux villes différentes, ou entre deux années différentes pour une même ville).
+
+#### Décomposabilité des indices
+
+1) Décomposabilité de l'indice de ségrégation total (ou multigroupes) en fonction de la ségrégation binaire de chaque groupe (par exemple, ségrégation des individus les plus pauvres relativement au reste de la population).
+
+2) Décomposabilité en une subdivision du territoire étudié (par regroupement de carreaux). Ceci permet ainsi de décomposer l'indice de ségrégation en fonction de la ségrégation interne à ces subdivisions et entre ces subdivisions. Dans AU33, cette propriété permet de décomposer la ségrégation entre les QP d'une part, et zones hors-QP d'autre part.
+
+
+### Principes de l'indice de Theil et de l'indice d'information mutuelle
+
+Ces indices reposent sur la notion d'entropie pour approcher la notion de mixité (ou autrement dit de répartition équilibrée des groupes sociaux). Ils consistent en une mesure de l’écart entre les distributions locales des revenus et la distribution de référence.
+De plus, ces indices ont de bonnes propriétés de décomposabilité (calculs de contribution par groupes sociaux, par sous-territoires, etc.).
+
+Par ailleurs, ces indices sont **multigroupes** : ils mesurent conjointement la ségrégation pour l'ensemble des groupes sociaux : les plus pauvres, les plus aisés, mais aussi les groupes intermédiaires.
+
+### L'entropie
+
+L'entropie est une mesure de diversité/désordre. À l'échelle d'un carreau k, elle se définit mathématiquement comme suit :
+
+$$E(k) = \sum_{i=1}^{Ng} \frac{n_{k}^{i}}{n_{k}} * \log(\frac{1}{\frac{n_{k}^{i}}{n_{k}}}) = \sum_{i=1}^{Ng} p_{k}^{i} * \log(\frac{1}{p_{k}^{i}}) $$
+avec : 
+
+- $n_{k}^{i}$ = nombre d'individus appartenant au groupe de revenus i dans un carreau k
+- $n_{k}$ = nombre total d'individus dans un carreau k
+
+- $p_{k}^{i} = \frac{n_{k}^{i}}{n_{k}}$ = proportion d'individus appartenant au groupe de revenus i dans un carreau k
+- $n^{i}$ = nombre total d'individus appartenant au groupe i dans l'ensemble de la ville
+- $n$ = nombre total d'individus dans l'ensemble de la ville
+- $N_{g}$ = Nombre de groupes sociaux (ici : 5 groupes)
+
+Dans le cadre de cette étude, les groupes sociaux sont créés en découpant la population en quintiles de revenus. Ainsi, $Ng = 5$ et $n^{i}=n^{1}=n^{2} =... = n^{5} = n/5$
+
+Propriétés de l'entropie :
+
+- $E(k)>=0$
+- $E(k)$ est minimale et égale à 0 quand les habitants du carreau k n'appartiennent qu'à un seul groupe social (ségrégation parfaite).
+- $E(k)$ est maximale quand tous les groupes sociaux sont équirépartis dans le carreau : $n_{k}^{1} = n_{k}^{2} = ... = n_{k}^{5}$. Dans ce cas de mixité parfaite, $E(k)=log(Ng)=log(5)$
+- L'entropie ne dépend que la distribution des groupes sociaux au sein du carreau, et non de la taille de la population du carreau.
+
+
+
+La figure ci-dessous illustre l’entropie dans le cas où 3 groupes sociaux existent. Cette entropie est ici représentée comme une fonction de la proportion de la population figurant dans les deux premiers groupes sociaux. Elle est bien minimale et égale à zéro quand toute la population est rassemblée dans le même groupe (ce sont les 3 points de coordonnées $(0, 0, 0)$, $(1, 0, 0)$ et $(0, 1, 0)$). Elle est maximale quand les 3 groupes sont équirépartis (point de coordonnées $(\frac{1}{3}, \frac{1}{3}, log(3))$). Du fait de la non-linéarité de la formule, une variation de quelques pourcents de la répartition entre catégories a peu d’impact quand on est proche de l’équirépartition (1/3, 1/3, 1/3), mais l’impact est d’autant plus fort qu’on s’écarte de l’équirépartition.
+
+```{r entropie3D, fig.align = 'center',out.width="75%", fig.cap = "Fig12. Représentation de la fonction d'entropie avec 3 groupes", echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/entropie3D.png")
+```
+
+Malgré ces bonnes propriétés, l'entropie est difficile à interpréter car s'agit d'une fonction vectorielle et non-linéaire.
+
+### L'indice de ségrégation de Theil
+
+L'indice de ségrégation de Theil se définit comme la moyenne pondérée (par l’effectif du carreau) de l'écart  entre l'entropie de la ville et celle chaque carreau la composant :
+
+
+$$H = \sum_{k} \pi_{k}* \frac{E(V) - E(k)} { E(V) } $$
+
+avec : 
+
+- E(V) : l'entropie de la ville entière (ou la zone d'étude plus généralement), qui dépend uniquement de la distribution globale des différents groupes sociaux ($p_{1} ; p_{2} ; p_{3} ; p_{4}; p_{5} $).
+- E(k) : l'entropie du carreau k
+- $\pi_{k}$ : le poids démographique du carreau k (à savoir $n_{k}/n$)
+
+Dans notre cas particulier, la distribution des groupes sociaux étant équilibrée par définition dans la zone d'étude (groupes définis par les quintiles), alors : 
+
+$$H = \sum_{k} \pi_{k}* \frac{log(5) - E(k)} { log(5) } $$
+
+Ainsi, l’indice commence par considérer la baisse d’entropie dans chaque carreau, par rapport à une situation d’équirépartition des groupes sociaux.  Puis il fait la moyenne (pondérée par le poids démographique du carreau) de ces baisses sur l’ensemble des carreaux. 
+
+L'indice de ségrégation de Theil peut donc s'interpréter comme la moyenne pondérée de la perte d’entropie de chaque carreau, perte due au fait que la mixité sociale du carreau s’écarte de celle de référence au niveau de la ville (l’équirépartion).
+
+Propriétés de l'indice de ségrégation de Theil : 
+
+    - 0<=H<=1
+    - H=0 en cas de mixité parfaite : tous les carreaux présentent une distribution des groupes sociaux similaire à la distribution de la population de référence (c'est-à-dire équilibre entre les groupes).
+    - H=1 en cas de ségrégation parfaite : les individus appartenant à des groupes sociaux différents ne cohabitent jamais dans un même carreau.
+
+
+### L'indice d'information mutuelle
+
+Il s'agit simplement de la version non-standardisée de l'indice de ségrégation de Theil présenté *supra* :
+
+$$M = \sum_{k}{\pi_{k}* (E(V) - E(k) )} = E(V) - \sum_{k}{ \pi_{k}*E(k)} $$
+
+Cet indice n'est plus borné à 1.
+En revanche, ses propriétés de décomposition sont meilleures que celles de l'indice de Theil (voir *infra*).
+
+### Quelques exemples pédagogiques
+
+Dans les exemples ci-dessous, on compare la distribution des groupes de revenus entre une situation de référence (à gauche) et une distribution donnée à droite. On calcule la ségrégation comme un écart d'entropie, avec un indice de Theil (ici, la zone d'étude est un unique carreau pour simplifier).
+
+Dans le premier exemple ci-dessous, la distribution de droite correspond à une ségrégation de 10,06 % (avec une surreprésentation de personnes aisées).
+
+
+
+```{r exPedagoEntropie1, fig.align = 'center',out.width="75%", fig.cap = "Fig13.", echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/exPedagoEntropie1.png")
+```
+
+
+Dans le deuxième exemple, la distribution de revenus correspond approximativement à celle de certains QPV. Elle se caractérise par une forte surreprésentation d'individus appartenant au premier quintile de revenus. Cet exemple simulé correspond à une ségrégation de 37,43 %.
+
+```{r exPedagoEntropie2, fig.align = 'center',out.width="75%", fig.cap = "Fig14.", echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/exPedagoEntropie2.png")
+```
+
+
+Les deux situations ci-dessous montrent l'exemple d'une augmentation d'environ 10 % de la ségrégation, sur un carreau dont le niveau initial de ségrégation correspond à 11,24 %. Pour générer cette augmentation, une modification relativement légère de la distribution des groupes de revenus a suffi.
+
+```{r exPedagoEntropie5, fig.align = 'center',out.width="75%", fig.cap = "Fig15.", echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/exPedagoEntropie5.png")
+```
+
+
+
+### Éléments sur la décomposabilité
+
+#### Décomposabilité spatiale : QP versus « hors-QP »
+
+Lorsque la zone étudiée peut être partagée en 2 sous-ensembles, l'indice de Theil peut s’interpréter comme la somme de plusieurs composantes, de manière similaire à la traditionnelle décomposition de variance inter et intra.
+Ici, lorsque l’on considère une ville, et que l’on s’intéresse aux quartiers prioritaires d’une part (les QP), et au reste de la ville d’autre part (le « hors QP »), l’indice de Theil peut se décomposer en 3 éléments : 
+
+- Une composante « inter »
+- Une composante « intra » QP
+- Une composante « intra » hors-QP
+
+$$H = H_{qp/\overline{qp}} + \theta_{qp} *H_{qp} + \theta_{\overline{qp}} *H_{\overline{qp}} $$
+Les QPV ont leur zonages propres, indépendant du découpage en carreaux. Il faut pour cela les approximer à une juxtaposition de carreaux : ce point est développé dans le chapitre « 4.3.4.2 -	Définition des QP sur la base d’une maille carroyée ».
+
+##### Composantes intra
+
+Il s'agit de la ségrégation interne aux sous-catégories spatiales concernées : 
+
+- la ségrégation interne à la population des QP,
+- la ségrégation interne à la population vivant hors des QP.
+
+Cette fois, la ségrégation n'est plus calculée sur l'ensemble des carreaux de la ville, mais seulement sur les carreaux définissant des sous-territoires d'intérêt. À l'échelle de ces sous-territoires, l'entropie de la population totale n'est plus forcément maximale car les groupes sociaux n'y sont pas représentés de manière équilibrée. Par exemple, dans les QP d'une ville, il n'y a généralement pas 20 % de pauvres, 20 % de pauvres intermédiaires, ..., 20 % d'aisés.
+
+1) $H_{qp}$ : ségrégation interne aux QP (distribution de référence = distribution de la population des QP parmi les groupes sociaux calculés à l'échelle de la ville entière).
+
+$$H_{qp}=\sum_{k \in qp} {\pi_{k}^{qp} * \frac{E(qp)-E(k)}{E(qp)}}$$
+
+avec : 
+
+- $\pi_{k}^{qp}$ : le poids démographique du carreau k parmi l'ensemble des carreaux en QP
+- $E(qp)$ : l'entropie de la population des QP (les groupes sociaux ayant la même définition qu'à l'échelle de la ville entière)
+
+
+
+2) $H_{\overline{qp}}$ : ségrégation interne à l'ensemble des zones hors-QP (distribution de référence = distribution de la population ne vivant pas en QP avec les groupes sociaux calculés à l'échelle de la ville entière).
+
+$$H_{\overline{qp}}=\sum_{k \in \overline{qp}} {\pi_{k}^{\overline{qp}} * \frac{E(\overline{qp})-E(k)}{E(\overline{qp})}}$$
+avec : 
+  
+- $\pi_{k}^{\overline{qp}}$ : le poids démographique du carreau k parmi l'ensemble des carreaux en dehors des QP
+- $E(\overline{qp})$ : l'entropie de la population ne vivant pas en QP (les groupes sociaux ayant la même définition qu'à l'échelle de la ville entière)
+
+
+#####  Composante inter
+
+$H_{qp/\overline{qp}}$ : il s'agit de l'indice de ségrégation calculé en considérant que la ville se divise en seulement 2 « carreaux » : 
+
+- un premier comportant l'ensemble des habitants des QP
+- le second comportant l'ensemble des habitants hors-QP
+
+Il s'agit de la part de l'indice de ségrégation global qui peut être imputée à la différence de composition sociale entre les QP et le reste de la ville.
+
+$$H_{qp/\overline{qp}} = \pi_{qp} * \frac{E(V)-E(qp)}{E(V)} + \pi_{\overline{qp}} * \frac{E(V)-E(\overline{qp})}{E(V)} $$
+
+avec :
+
+- $\pi_{qp}$ : poids démographique des QP dans la ville
+- $\pi_{\overline{qp}}$ : poids démographique des zones hors QP dans la ville
+
+À noter que cette composante dépend toujours du poids démographique des sous-territoires étudiés. Ici, le niveau de ségrégation des QP (qui par construction concentrent une grande proportion de personnes pauvres) est généralement beaucoup plus élevé que celui hors-QP. Par ailleurs, le poids démographique des QP a tendance à diminuer relativement aux autres quartiers (car la population y croît en moyenne nettement moins que dans les autres quartiers). Cette diminution relative influence à la baisse la ségrégation « inter ». En conclusion, l'évolution de la ségrégation « inter » dépend des évolutions de compositions sociales des 2 sous-territoires, mais elle dépend aussi des évolutions démographiques relatives.
+
+##### Les pondérations des composantes intra
+
+$$\theta_{qp} = \pi_{qp} * \frac{E(qp)}{E(V)}$$
+
+et
+
+$$\theta_{\overline{qp}} = \pi_{\overline{qp}} * \frac{E(\overline{qp})}{E(V)}$$ 
+
+
+##### Problème de la décomposition faible de l'indice de ségrégation de Theil
+
+Dans la décomposition présentée *supra*, les pondérations des deux composantes *intra* ne dépendent pas que des poids démographiques des populations concernées, puisque les termes $E(qp)$, $E(\overline{qp})$ et $E(V)$ sont présents. Par conséquent, le terme $H_{qp/\overline{qp}}$ ne quantifie pas exactement de combien serait réduit l'indice de ségrégation de la ville en cas de suppression de la différence de composition sociale entre les QP et les autres quartiers. En effet, un tel changement ferait varier les termes $E(qp)$ et $E(\overline{qp})$, et donc ferait également varier $\theta_{qp}$ et $\theta_{\overline{qp}}$.
+
+Ceci explique qu'on puisse préférer l'indice d'information mutuelle (**M**) pour analyser la décomposition spatiale. En effet, pour cet indicateur de ségrégation, on peut montrer que : 
+
+$$M = M_{qp/\overline{qp}} + \pi_{qp} *M_{qp} + \pi_{\overline{qp}} *M_{\overline{qp}}$$
+
+Cette fois-ci, les pondérations ne dépendent que des poids démographiques, et pas de l’entropie. 
+
+En pratique, les décompositions de l'indice de Theil ou de IIM produisent des résultats très proches dans notre cas d'utilisation. Le tableau de bord fournit les résultats avec ces deux indices sur chaque ville, pour s’en convaincre.
+
+
+#### Décomposabilité entre groupes sociaux
+
+L'indice de ségrégation de Theil est multigroupes : il mesure conjointement la ségrégation de l'ensemble des groupes sociaux considérés.
+
+Cet indice peut-être décomposé selon les groupes sociaux : l'intérêt de cette décomposition est de quantifier l'influence d'un groupe donné dans la ségrégation totale multigroupes.
+
+Ainsi, la ségrégation totale est décomposable en : 
+
+- une composante de ségrégation binaire sur un groupe d'intérêt (par exemple, ségrégation des individus les plus pauvres, relativement à tous les autres individus confondus)
+- une composante de ségrégation multigroupes calculée en excluant les individus du groupe d'intérêt du calcul (selon le même exemple, la ségrégation multigroupes sur l'ensemble des groupes sociaux excepté celui des personnes les plus pauvres).
+
+Mathématiquement, pour un groupe $g_i$ donné, la décomposition de l'indice de Theil peut s'écrire : 
+
+$$H = \theta_{g_i/\overline{g_i}} * H_{g_i/\overline{g_i}} + \theta_{\{-g_i\}} * H_{\{-g_i\}}$$
+
+avec :
+
+- $H_{g_i/\overline{g_i}}$ : la ségrégation binaire du groupe $g_i$. Autrement dit, l'indice de Theil calculé avec une répartition de la population en 2 groupes : les individus appartenant au groupe $gi$ *versus* tous les autres individus regroupés dans un second groupe.
+- $H_{\{-g_i\}}$ : la ségrégation multigroupes sans les individus du groupe $g_i$. Autrement dit, il s'agit de l'indice multigroupe calculé en excluant du calcul tous les individus du groupe $g_i$.
+- $\theta_{g_i/\overline{g_i}}$ et $\theta_{\{-g_i\}}$ : les termes de pondération associés aux 2 composantes.
+
+
+Dans le détail, les termes de pondération s'écrivent comme suit : 
+
+- $\theta_{g_i/ \overline{g_i}} = \frac{E(P^{g_i/\overline{g_i}})}{E(V)}$
+- $\theta_{\{-g_i\}} = \pi_{\{-g_i\}} * \frac{E(P^{\{-g_i\}})}{E(V)}$
+
+
+avec : 
+
+- $E(P^{g_i/\overline{g_i}})$ : l'entropie de la population répartie en deux groupes : ceux qui appartiennent à $g_i$ versus tous les autres. 
+- $E(V)$ : l'entropie de la population répartie dans les groupes d'origine ($\log(5)$ dans notre cas).
+- $\pi_{\{-g_i\}}$ : le poids démographique de l'ensemble de la population n'appartenant pas au groupe $g_i$ (0.8 dans notre cas).
+- $E(P^{\{-g_i\}})$ : l'entropie de la population privée des individus appartenant au groupe $g_i$ (et répartie dans les 4 groupes restants, dans notre cas).
+
+
+Comme pour l'indice de Theil, une décomposition est possible avec l'indice d'information mutuelle et s'écrit : 
+
+$$M = M_{g_i/\overline{g_i}} + \pi_{\{-g_i\}} * H_{\{-g_i\}}$$
+
+Là aussi, le coefficient intervenant dans la décomposition ne dépend que des poids démographiques, ce qui permet d’interpréter la décomposition de l’IIM d’une manière simple.
+Dans notre cas d'étude, où les groupes sociaux sont définis par quintiles de revenus, les termes $\theta$ de décomposition par groupes de l'indice de Theil ne dépendent pas non plus de l’entropie. Ils sont même constants, quelle que soit la ville et quelle que soit l'année étudiée. En effet, dans tous les cas, $\theta_{g_i/ \overline{g_i}} = 0.31$ et $\theta_{\{-g_i\}}=0.69$. Ainsi, contrairement à la décomposition spatiale « QP / hors-QP », les termes de pondération et les sous-composantes de ségrégation ne sont pas liés. 
+
+Entre l'approche par Theil et l'approche par IIM, les indices binaires et les indices multigroupes sont différents en niveau. Pour autant, les évolutions de ces indices et leurs contributions à leurs décompositions respectives sont quasiment similaires que l'on utilise Theil ou IIM (au centième près). **Ainsi, les conclusions sont similaires quelle que soit l'approche utilisée : Theil et IIM peuvent ici être utilisés de manière équivalente**.
+
+La décomposition par groupe permet de connaître l'importance d'un groupe donné dans la ségrégation totale, notamment en comparant avec la ségrégation binaire des autres groupes. De même, on peut étudier l'évolution de la contribution de ce groupe à la ségrégation totale dans le temps.
+
+Attention, la somme des contributions binaires des différents groupes n'est pas égale à la ségrégation totale (pour étudier x groupes, il faut faire x décompositions différentes).
+
+## Chemins vers les bases de données en entrée
+
+Voici les bases de données mobilisées et leurs chemins d'accès dans les coffres AUS.
+
+### Bases RFL
+* RFL 2004 : X:/HAB-RFL-Mise-a-disposition/HAB_A1223040_DMMICSAS/MENIR.sas7bdat
+* RFL 2005 : X:/HAB-RFL-Mise-a-disposition/HAB_A1223050_DMMICSAS/MENIR.sas7bdat
+* RFL 2006 : X:/HAB-RFL-Mise-a-disposition/HAB_A1223060_DMMICSAS/MENIR.sas7bdat
+* RFL 2007 : X:/HAB-RFL-Mise-a-disposition/HAB_A1223070_DMMICSAS/MENIR.sas7bdat 
+* RFL 2008 : X:/HAB-RFL-Mise-a-disposition/HAB_A1223080_DMMICSAS/MENIR.sas7bdat 
+* RFL 2009 : X:/HAB-RFL-Mise-a-disposition/HAB_A1223090_DMMICSAS/MENIRMET09.sas7bdat 
+* RFL 2010 : X:/HAB-RFL-PROD/2010/INFRA/MENAGE/MENIR/menirmet10.sas7bdat 
+* RFL 2011 : X:/HAB-RFL-PROD/2011/INFRA/MENAGE/MENIR/menirmet11.sas7bdat 
+
+
+### Bases Filosofi
+
+* Filosofi 2012 : X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2012/Table
+Ménages/données/menages12.sas7bdat
+* Filosofi 2013 : X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2013/Table Ménages/données/menages13.sas7bdat 
+* Filosofi 2014 : X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2014/Table Ménages/données/menages14.sas7bdat 
+* Filosofi 2015 : X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2015/Table Ménages/données/menages15.sas7bdat 
+* Filosofi 2016 : X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2016/Table Ménages/données/menages16.sas7bdat
+* Filosofi 2017 : X:/HAB-FILOSOFI-DONNEES-NBL/Filosofi 2017/Table Ménages/données/menages17.sas7bdat
+
+### Base du zonage en aires d'attraction des villes
+
+Lien de la base : 
+P:/PSAR_AT/Aires d'attraction des villes 2020/Version du zonage du 4 septembre 2020/AAV_definitif_09092020.rds
+
+### Base des contours géographiques des QPV
+
+Base téléchargée en novembre 2020 à partir de l'application Créacartes : 
+https://creacartes.insee.fr/accueil
+Il s’agit des quartiers prioritaires de la politique de la ville définis par le décret n° 2015-1138 du 14 septembre 2015. 
+
+
+
+
+## Détails sur les traitements et la qualité des bases ménages
+
+
+### Importation des bases ménages RFL et Filosofi
+
+Les bases de RFL et Filosofi sont converties en format .RDS et on sélectionne seulement les variables d'intérêt pour le projet (les fichiers sont lourds et nombreux). Certaines bases présentes dans les coffres sont compressées avec un format « Binary ». Ceci empêche d'utiliser de la méthode classique d'importation des bases SAS *via* la fonction read_sas() du package Haven. Pour y remédier, une première solution utilisée était de mobilier le package Hmsic. Ce dernier nécessite d'avoir le logiciel SAS à disposition. Au passage à AUSv3 (au cours du développement du lot 1), cette solution est devenue obsolète car nécessitant de lancer le code d'importation en dehors de AUSv3pd-rpython.insee.fr (utilisation de RGui dans la collection SAS de AUSv3). En cas de réactualisation de ces importations, il conviendrait d'utiliser une phase intermédiaire de conversion des bases SAS en .csv (voir le script export_sasToCvs.sas).
+
+Pour des raisons de traçabilité et de contrôle de qualité, les bases RFL sont importées en « version longue et transparente », puis elles sont modifiées dans une seconde version « light » avec seulement les variables nécessaires au projet, et avec des noms de variables modifiés/standardisés pour être similaires avec les millésimes Filosofi. Ceci pourrait évoluer dans un prochain lot pour limiter l'espace disque consommé par le projet.
+
+### Sélection des variables d'intérêt
+
+#### Le revenu déclaré du ménage par unité de consommation
+
+Dans RFL comme dans Filosofi, il existe une variable de revenus déclarés par UC déjà préparée.
+
+Pour autant, dans RFL, il existe différentes versions de cette variable au fil des millésimes. Ceci est dû à la **gestion des ménages ayant connu des évènements fiscaux** (MDS : mariages, décès, séparations).
+
+En pratique, ces choix consistent à retenir les variables suivantes pour les revenus déclarés par unités de consommation :
+
+* RFL 2004 : zfiscUC
+* RFL 2005 : zfiscUC
+* RFL 2006 : zfiscUC
+* RFL 2007 : ZFISCUCMDS
+* RFL 2008 : ZFISCUC
+* RFL 2009 : ZFISCUC
+* RFL 2010 : ZFISCUC
+* RFL 2011 : ZFISCUC
+* Filosofi 2012 : revdecucm
+* Filosofi 2013 : revdecucm
+* Filosofi 2014 : revdecucm
+* Filosofi 2015 : revdecucm
+* Filosofi 2016 : revdecucm
+* Filosofi 2017 : revdecucm
+
+#### Les autres variables d'intérêt
+
+Les bases étant très volumineuses, seul un petit nombre de variables est extrait des bases initiales : 
+
+* le nombre de personnes dans le ménage (du type « nbpersm »),
+* le code officiel géographique de la commune de résidence du ménage (du type « depcom »), 
+* les coordonnées géographiques du logement du ménage (du type « x/y » ou « PLG_X/PLG_Y »), 
+* le Dirnoseq pour les millésimes RFL (pour apparier des coordonnées géographiques fiables *a posteriori*, car celles déjà présentes dans les bases sont très souvent non renseignées).
+
+À noter que la variable de nombre de personnes dans le ménage s'appelle NBPERSMMDS pour RFL 2007 (millésime particulier dans le cadre de la gestion des ménages MDS).
+
+
+
+### Conversion des COG en géographie 2020
+
+Par la suite, les villes sont définies à partir du code géographique officiel (COG) des communes qui les composent. Dans les bases ménages RFL-Filosofi, ces COG sont renseignés en géographie courante. Afin d'éviter les problèmes liés aux fusions/séparations des communes, tous les COG sont convertis en géographie 2020. De plus, tous les COG spécifiques pour les arrondissements communaux de Paris-Lyon-Marseille sont remplacés par les COG de la ville entière afin d'éviter les incompatibilités pour les appariements à venir.
+
+
+### Restriction du champ (DOM, revenus négatifs)
+
+On restreint l'analyse à la France métropolitaine. A voir plus tard s'il est possible d'intégrer les ménages de la Réunion (pour Saint-Denis) dans un prochain lot.
+
+### Contrôle *a priori* de la qualité des bases et corrections
+
+Les bases ont subi plusieurs contrôles automatiques avant d'être exploitées. 
+Ces contrôles ont permis de soulever les problèmes ci-dessous. Le détail du résultat de ces contrôles est disponible dans le fichier suivant, dans le coffre de l’investissement sous AUS : **« \extrants\rapportsRmd\02b_controle_qualite.html »**. À noter que les traitements sont réalisés en amont, dans un script R classique, car les performances sont très mauvaises (voire impossibles) en cas d'inclusion de ces traitements dans le script Rmarkdown.
+
+#### Correction des XY manquants dans RFL
+
+Les coordonnées géographiques de RFL ne sont pas exploitables car faiblement renseignées. Ainsi, il convient d'apparier des coordonnées géographiques externes grâce au code Dirnoseq de chaque ménage (toujours bien renseigné). Une table de passage entre les Dirnoseq et les coordonnées géographiques a été produite au sein de la division DSAU. Ainsi, les coordonnées géographiques sont retrouvées pour la quasi-totalité des ménages des bases RFL. Néanmoins, un faible nombre de ménages n'a pas de coordonnées géographiques malgré cet appariement. Ceci est essentiellement notable en 2004 : 57 000 ménages n'ont pas de coordonnées géographiques, ce qui ne représente cependant que 0,2 % de l'ensemble des ménages. Pour les autres millésimes, leur nombre est négligeable. Ces ménages n'ayant pas de coordonnées géographiques sont retirés des bases de données. Les conséquences sur les indicateurs et sur les cartes sont *a priori* infimes, voire inexistantes.
+
+#### Supression des ménages à revenus négatifs
+
+Une très faible part des ménages déclare des **revenus négatifs** : en conformité avec les préconisations de la division DSRL, ces ménages sont supprimés des bases lors de l'exploitation. Néanmoins, une part faible mais non négligeable de ménages déclare des revenus strictement nuls (entre 1,6 % et 2,4 % des ménages selon l'année). Ces ménages sont conservés dans les bases de données.
+
+#### Evolutions constatées sur le nombre de ménages d'une année à l'autre
+Enfin, le nombre de ménages répertoriés dans les bases peut varier de manière non-régulière entre certains millésimes. En particulier, entre 2006 et 2007, le nombre de ménages augmente de façon marquée du fait de la prise en compte des ménages MDS (écart d'environ 700 000 ménages par rapport à la tendance). De plus, entre 2011 et 2012 (charnière entre les dispositifs RFL et Filosofi), le nombre de ménages baisse d'environ 500 000, en écart à la tendance. Ceci pourrait provenir d'évolutions de champs et de concepts avec l'introduction de Filosofi.
+
+Toutes les bases corrigées sont stockées dans le répertoire : **« au33/donnees/repo_basesRDS_corr »**.
+
+
+### Cylindrage des millésimes : contrôle *a posteriori* de la distribution des revenus
+
+L'objectif est de détecter *a posteriori* d'éventuelles incohérences dans la distribution des revenus déclarés entre les différents millésimes, et notamment à la charnière entre les dispositifs RFL et Filosofi. Cette méthode consiste simplement à visualiser graphiquement les déciles ou la densité de la distribution à travers le temps.
+
+Là encore, pour des raisons computationnelles, les résultats sont générés et enregistrées dans un flux R classique, et ils sont réimportés et affichés dans un script Rmarkdown dans un second temps (".../R/04b_cylindrage.Rmd").
+
+Résultats :
+
+- Distribution régulière des revenus entre les différents millésimes.
+- Pas de rupture entre RFL et Filosofi, ni au niveau national ni au niveau régional.
+
+```{r cylindrage, fig.align = 'center',out.width="75%", fig.cap = "Fig16. Déciles des revenus par UC selon l'année (France métropolitaine)", echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/cylindrage.png")
+```
+
+
+Ainsi, malgré le changement de dispositif, la stabilité de la distribution des revenus accrédite la pertinence de comparer les revenus déclarés par UC dans le temps, et entre les 2 dispositifs.
+
+Les résultats de cette opération sont disponibles dans le fichier suivant : **« \extrants\rapportsRmd\04b_cylindrage.html »**
+
+
+
+### Carroyage et algorithme de création des bases de résultats
+
+#### Définition des AAV à partir des COG 2020
+Pour chaque pôle (*via* le code AAV), on crée la liste des COG2020 des communes qui le composent. Pour Paris, Lyon et Marseille, on doit prendre en compte les COG des arrondissements communaux (absents de la table de passage).
+
+#### Définition des QP sur la base d'une maille carroyée
+
+Comme indiqué dans la partie méthodologique, le calcul des indices de ségrégation s'appuie sur un découpage en carreaux de la ville étudiée. Ainsi, pour décomposer l'indice de ségrégation selon 2 sous-zones (« QP » versus « hors-QP », par exemple), il faut au préalable que chaque carreau soit affecté à l'une ou à l'autre des sous-zones.
+
+Dans le cas de la décomposition « QP / hors-QP », il faut donc assimiler les QP à un ensemble de carreaux. Pourtant, les limites réelles des QP n'épousent pas le carroyage de notre ville : ainsi, cette opération d'assimilation des QP à un ensemble de carreaux est une **approximation**.
+
+Pour réaliser cette approximation tout en limitant les temps de calculs, voici les étapes : 
+
+* Tous les carreaux strictement inclus à l'intérieur des frontières d'un QP sont considérés comme des carreaux constitutifs du QP (on sait que 100 % des habitants géolocalisés dans ces carreaux vivent effectivement dans un QP).
+
+* Tous les carreaux strictement en dehors des QP sont considérés comme des carreaux constitutifs des zones hors-QP.
+
+* Pour les carreaux à cheval, ceux traversés par une frontière réelle d'un QP, on considère que le carreau est constitutif du QP si et seulement si les individus du carreau sont majoritairement géolocalisés à l'intérieur de la frontière réelle du QP. Autrement, le carreau est affecté aux zones hors-QP
+
+
+```{r carroyageQP, fig.align = 'center',out.width="100%", fig.cap = "Fig17. Schéma d'approximation des QPV dans un carroyage", echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/shema_carreauxQP.jpg")
+```
+
+
+À noter que l'approximation réalisée dépend de la taille des carreaux du maillage. Si les carreaux sont relativement petits par rapport aux QP, alors l'approximation est limitée et donc acceptable. À cet égard, rappelons que les QP sont de tailles très disparates. À ce titre, on considère qu'**il n'est pas légitime de découper les QP avec des carreaux de taille supérieure à 200 mètres**.
+
+Par exemple, l'image ci-dessous montre le résultat de l'assimilation du QPV de Villejean (Rennes) à une grille de carreaux de 200 mètres. Les lignes noires correspondent aux limites réelles du QPV, les carreaux bleus correspondent aux carreaux constitutifs du QP, et les carreaux rouges correspondent aux carreaux « à cheval » mais dont la majorité de la population ne vit pas à l'intérieur du QP (ces carreaux ne sont donc pas considérés comme constitutifs du QP).
+
+```{r carroyageQP_villejean, fig.align = 'center',out.width="100%", fig.cap = "Fig18. Exemple sur le QP de Villejean (Rennes)", echo=FALSE}
+knitr::include_graphics( "X:/HAB-PsarAU-segregation/au33/extrants/rapportsRmd/images/carroyageQP_villejean.png")
+```
+
+
+#### Itération sur les millésimes
+Pour des raisons computationnelles, le processus de production est conçu pour limiter au maximum le nombre d'importations des bases ménages. Ainsi, l'ensemble des opérations est réalisé pour chaque importation d'un millésime de données ménages. La fonction **f_couches** est une simple boucle dont l'objectif est de faire appel à d'autres fonctions et d'organiser la liste contenant l'ensemble des données-résultats. Au sein de cette boucle, les opérations suivantes sont effectuées :
+
+- Chargement d'un millésime de données ménages
+- Pour toutes les villes, filtrage de la base aux seuls ménages du pôle
+- Pour toutes les tailles de carreaux, appel de la fonction **f_carroyage** qui permet le passage d'une base de ménages à une base carroyée (voir ci-dessous). 
+- Création des résultats avec ou sans filtrage des carreaux de moins de 20 ménages.
+
+#### Passage à une base carroyée
+La fonction **f_carroyage** prend pour paramètres : 
+
+- une base de ménages
+- une taille de carreau
+- un nombre de groupes sociaux pour les quantiles de revenus (ici 5)
+- une option de filtrage des carreaux pas suffisamment peuplés
+
+La fonction **f_carroyage** a pour objectif de générer les résultats suivants : 
+
+- Des bases de carreaux, à partir des bases ménages, avec des indicateurs suivant :
+    - entropie, ségrégation partielle,
+    - nombre d'individus par groupes sociaux,
+    - médiane de revenus individuels par unités de consommation,
+    - un identifiant unique du carreau
+- Les indices de ségrégation (Theil et IIM)
+- Les décompositions de la ségrégation par groupes sociaux
+- Les décompositions spatiales QP/ hors-QP (uniquement avec la grille de 200 mètres)
+- La liste des quintiles de revenus déclarés par UC dans l'ensemble de la population concernée.
+- La discrétisation des carreaux selon leur niveau de revenus médian (couleur sur les cartes)
+
+
+Voici les principales étapes du traitement : 
+
+- Filtrage des carreaux peu peuplés
+- Définition des quintiles de revenus (à l'échelle des individus)
+- Répartition des ménages de la base par tranche de revenus (groupes sociaux : tr_rev)
+- Répartition des ménages dans les différents carreaux de la maille (découpés par troncatures des coordonnées géographiques Lambert 93). À noter que la grille est la même chaque année (parce que la définition de l’origine est exogène).
+- Calculs des indices de ségrégation grâce à la fonction **calcul_indSegreg**.
+
+#### Calcul des indices de ségrégation *via* la fonction calcul_indSegreg
+
+Cette fonction est disponible en dehors de **f_carroyage** car elle s'applique dans différents cas de figure : soit sur l'ensemble des ménages en entrée (ville entière), soit uniquement sur les ménages appartenant à certains carreaux (les QP par exemple pour réaliser le calcul de la décomposition).
+
+Cette fonction prend comme paramètres : 
+
+- Une base de ménages
+    - Répartis en groupes sociaux
+    - Répartis dans des carreaux
+- (Facultatif) Une liste d'identifiants de carreaux définissant une zone d'intérêt (les QP en l'occurrence).
+
+Pour réaliser les calculs, la fonction crée notamment une base de croisements entre les carreaux et les groupes sociaux afin de calculer les populations associées à ces croisements en vue d'obtenir les entropies.
+
+Dans le cas d'une utilisation classique (sans sous-décomposition spatiale), la fonction renvoie :
+ 
+- une base de carreaux avec : 
+    - les indicateurs de ségrégation partielle
+    - leur poids démographique
+- une base de croisements partiels (carreau)*(groupe social)
+- l'indice de Theil total
+- l'indice IIM total
+
+À noter que la base de croisements est utilisée par la suite, dans la fonction **f_carroyage** pour rapatrier les effectifs des groupes sociaux, et ce pour chaque carreau. Ceci est nécessaire pour le lissage spatial des indices de ségrégation des carreaux (voir *infra*).
+
+
+#### Lissage spatial de la ségrégation pour les cartes 3D
+
+La fonction **fLissage** est utilisée pour réaliser le lissage spatial et la mise en forme des couches de données utilisées par l'application de cartographie 3D.
+
+Cette opération consiste à lisser la population de chaque groupe social sur la grille carroyée, avec un rayon de lissage égal à trois fois la taille des carreaux, et de recalculer les indices à partir de ces populations lissées (poids démographiques lissés, entropies lissées puis ségrégation normalisée).
+
+### Fonctionnement des applications
+
+Les applications de tableau de bord et de cartographie sont réalisées en RShiny et leurs scripts sont intégrés au projet R de l'investissement :
+
+- R / 07b_app_dashboard
+- R / 06_app_carto3D
+
+Pour l'application de tableau de bord : 
+
+- Elle utilise directement des données stockées dans le fichier lcouches.RDS.
+- Elle s'appuie sur un ensemble de fonctions spécifiques stockées dans le fichier R/07a_fonctions_dashboard.R. Ces fonctions permettent par exemple de résumer les données ou de confectionner les graphiques du tableau de bord. 
+
+Pour l'application de cartographie 3D : 
+
+- Elle s'appuie sur 50\*5 listes de données : 1 pour chaque couple (ville\*maille), contenant l'ensemble des millésimes et stockées dans le sous-dossier « extrants/couches_carreaux »
+
+
+## Composition du groupe de travail
+
+* **Yves CALDERINI**, Directeur régional Insee Grand-Est, MOAD
+* **Laurent LEQUIEN**, **Gaël GUYMARC**, **Julien PRAMIL**, DG - DSAU
+* **Corinne MARTINEZ**, DG – DCAR
+* **Pierre-Emile BIDOUX**, **Cédric LACOUR** - Insee Nouvelle-Aquitaine
+* **Laurent AUZET**, **Hervé BOVI**, **Emmanuel GRANIER** - Insee Bretagne
+* **Olivier GUILLEMIN** - DG - DSRL
+
+## Les pistes non développées dans l'investissement
+
+* Contribution des migrations résidentielles à la ségrégation résidentielle
+* Lien entre inégalités et ségrégation à l'échelle des villes.
+
+
+## Bibliographie
+
+* « Niveaux de vie et ségrégation dans douze métropoles françaises », Jean-Michel Floch, Économie et statistique n° 497-498 – 2017.
+
+* « L’évolution de la ségrégation résidentielle en France : 1990-2015 », Botton H., Cusset. P-Y, Dherbécourt C., George A., France stratégie, document de travail, juillet 2020.
+
+* « Quels outils pour mesurer la ségrégation dans le système éducatif ? Une application à la composition sociale des collèges français », Monso O., Givord. P, Guillerm M., Murat F., Afsa C., Depp - Insee, septembre 2016.
+

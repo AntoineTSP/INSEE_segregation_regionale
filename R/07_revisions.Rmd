@@ -1,0 +1,142 @@
+---
+title: "Vérifications des revisions"
+author: "Julien PRAMIL"
+date: "07/06/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+knitr::opts_knit$set(root.dir = 'U:/developpements/au33_v2/au33_dev/prod')
+```
+
+
+```{r environn, include=FALSE}
+
+source("R/00a_global.R",encoding = "UTF-8")
+path_old <- "X:/HAB-PsarAU-segregation/au33/extrants/couches_carreaux/lcouches.RDS"
+```
+
+## Constat
+
+À Nantes en 2012, l'indice de Theil est nettement moins élevé dans les données de la v2 que dans les données de la v1.
+
+Pourtant, les bases ménages en input sont les mêmes.
+
+La seule différence possible semblerait la géolocalisation de ces ménages : en effet, quand les ménages sont retrouvés (via leur dirnoseq) dans la table de passage de la division logement, on utilise la géolocalisation la plus récente. Ce n'était pas le cas lors de la V1.
+
+* Indice de Theil de la v1 : 0.118516
+* Indice de Theil de la v2 : 0.115558
+
+On cherche alors la raison de cette baisse de 0.002958 sur l'indice de Theil.
+
+## Chargement des données
+
+```{r load}
+lcouches_old <- readRDS(path_old)
+lcouches <- readRDS(paste0(chemin_output,"pour_utilisateurs/lcouches.RDS"))
+tcar <- 200
+crs <- 2154
+```
+
+
+## Traitement préalables
+
+* Création d'identifiants inspire sur l'ancienne version de lcouche
+* Création de la variable de contribution du carreau à l'indice de Theil
+
+```{r traitement}
+# Extraction Nantes avec grille de 200m et ségrégation de Theil
+carreaux_v1 <- lcouches_old %>% map(~.x$ville008$c200$avecFiltrage$carreaux)
+carreaux_v2 <- lcouches %>% map(~.x$`008`$`200`$carreaux)
+
+# Ajout de la variable de contribution de chaque carreau
+carreaux_v1 <- carreaux_v1 %>% map(~.x %>% mutate(contrib=pi*segregStandar))
+carreaux_v2 <- carreaux_v2 %>% map(~.x %>% mutate(contrib=pi*segregStandar))
+
+# Ajout idInspire sur les carreaux de la v1
+carreaux_v1 <- carreaux_v1 %>% map(
+  ~.x %>% mutate(idInspire=paste0("CRS",crs,
+                            "RES",tcar,"m",
+                            "N", format(y_centro - tcar / 2,scientific = F,trim=T),
+                            "E", format(x_centro - tcar / 2,scientific = F,trim=T))
+                 )
+)
+
+```
+
+
+## Comparaison des v1 et v2 sur l'année 2012
+
+* 40 carreaux apparus avec la v2
+* 4 carreaux disparus
+
+Les apparitions de nouveaux carreaux et la disparition d'anciens carreaux contribuent à la hausse sur l'indice de Theil total de la V2 (+0,0057).
+
+Sur les carreaux existants à la fois dans la v1 et la v2, la somme de leur contribution à baissé de -0.0086.
+
+
+```{r compar_versions}
+compar_versions <- carreaux_v1$annee12 %>% merge(carreaux_v2$men12,by="idInspire",all=T)
+
+teste <- !carreaux_v1$annee12$idInspire %in% carreaux_v2$men12$idInspire
+carreaux_v1$annee12$idInspire[teste]
+
+# Carreau apparus dans la V2
+apparus <- compar_versions %>% filter(is.na(pi.x)) %>% select(idInspire,nbmen_carreau.y,contrib.y)
+apparus
+cat("Contribution cumulée : ",sum(apparus$contrib.y))
+
+# Carreau disparus dans la V2
+disparus <- compar_versions %>% filter(is.na(pi.y)) %>% select(idInspire,nbmen_carreau.x,contrib.x)
+disparus
+cat("Contribution cumulée : ",sum(disparus$contrib.x))
+
+cat("Contrib des carreaux apparus - contrib des carreaux disparus = ",sum(apparus$contrib.y)-sum(disparus$contrib.x))
+
+# Evolution de la contribution
+compar_versions <- compar_versions %>% mutate(evol_contrib=contrib.y-contrib.x) %>% arrange(evol_contrib)
+cat("Evolution de la contribution des carreaux présents dans la v1 et la v2 : ",sum(compar_versions$evol_contrib,na.rm = T))
+
+
+
+nbmen_tot_v1 <- compar_versions$nbmen_carreau.x %>% sum(na.rm = T)
+nbmen_tot_v2 <- compar_versions$nbmen_carreau.y %>% sum(na.rm = T)
+
+cat("Variation du nombre de ménages entre V2 et V1 : ", nbmen_tot_v2-nbmen_tot_v1)
+
+```
+
+
+Ceci semble dû à des **fortes baisses de populations sur certains carreaux très ségrégés dans des quartiers « cités grands-ensembles »**.
+
+Les corrections apportées lors de la V2 sur les géolocalisations semblent avoir **« cassé »  certaines accumulations artificielles de ménages sur un unique carreau** (par exemple, au centre de la cité). 
+
+Sur la carte ci-dessous, on remarque notamment l'apparition de nouveaux carreaux dans des quartiers de grands ensembles. Les habitants de ces carreaux étaient probablement géolocalisés à tort sur un point situé dans un carreau à proximité. 
+
+```{r cartes}
+
+# Carroyage géographique
+sf_compar_versions <- compar_versions %>% select(idInspire,nbmen_carreau.x,nbmen_carreau.y,segregStandar.x,segregStandar.y,contrib.x,contrib.y,evol_contrib) %>% 
+  mutate(x=idInspire %>% str_extract("(?<=E)\\d+$") %>% as.numeric() + tcar/2,
+         y=idInspire %>% str_extract("(?<=N)\\d+(?m)") %>% as.numeric() + tcar/2)
+
+sf_compar_versions <- dfToGrid(sf_compar_versions,sEPSG=2154,iCellSize = tcar)
+
+# Sélection des carraeux avec les plus fortes contributions à la baisse entre la v1 et à v2
+seuil_contrib <-sort(sf_compar_versions$evol_contrib)[10]
+
+# Cartographie
+sf_compar_versions <- sf_compar_versions %>%
+  mutate(type = case_when(is.na(nbmen_carreau.x) ~ "apparus",
+                          is.na(nbmen_carreau.y) ~ "disparus",
+                          evol_contrib<=seuil_contrib ~ "Forte baisse contrib"))
+sfcarto <- sf_compar_versions %>% filter(!is.na(type))
+mapview(sfcarto,zcol="type" )
+
+```
+
+
+
+

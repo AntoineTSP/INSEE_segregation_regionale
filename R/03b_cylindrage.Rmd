@@ -1,0 +1,64 @@
+---
+title: "Vérifications sur la cohérence des revenus entre RFL et Filosofi"
+author: "Julien PRAMIL"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::downcute:
+    self_contained: true
+---
+
+
+```{r setup, include=FALSE}
+
+knitr::opts_knit$set(root.dir = 'U:/developpements/au33_v2/au33_dev')
+options(max.print="75")
+
+knitr::opts_chunk$set(echo = F,message = F, warning = F)
+knitr::opts_knit$set(width=200)
+
+colorize <- function(x, color) {
+  sprintf("<span style='color: %s;'>%s</span>", color,x)
+}
+
+```
+
+```{r mes_options,include=F}
+source("R/00a_global.R")
+```
+
+
+
+## Avant-propos
+
+Les distributions sont analysées à l'échelle des individus, et non des ménages.
+
+Restriction du champ aux individus appartenant à des ménages dont le revenu est supérieur ou égal à 0 euro. 
+
+Les graphiques ci-dessous sont dynamiques. Il est notamment possible  d'afficher les données sur chaque région métropolitaine et de zoomer sur n'importe quelle portion du graphique.
+
+
+
+## Graphiques des déciles des revenus par UC 
+
+Aucune rupture à constater entre les millésimes RFL (2004 à 2011) et les millésimes Filosofi (2012 à 2019).
+
+
+```{r}
+readRDS(paste0(chemin_output,"cylindrage/quantileChart.RDS"))
+
+```
+
+
+
+## Graphiques de densité des revenus par UC 
+
+Aucune rupture à constater entre les millésimes RFL (2004 à 2011) et les millésimes Filosofi (2012 à 2019).
+
+Petite interrogation sur l'évolution des revenus en 2018 (forte hausse) et en 2019 (baisse).
+
+
+```{r}
+readRDS(paste0(chemin_output,"cylindrage/densiteChart.RDS"))
+
+```
+
